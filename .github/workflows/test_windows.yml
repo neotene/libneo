@@ -1,0 +1,44 @@
+
+name: libneo test windows
+
+on:
+  workflow_run:
+    workflows: ["libneo build windows"]
+    types:
+      - completed
+
+jobs:
+  windows-lastest:
+    runs-on: windows-latest
+    steps:
+      - if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+        run: exit 1
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Restore cached build directory
+        id: restore-cache
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            build
+          key: build-windows
+          restore-keys: |
+            build-windows
+
+      - if: steps.restore-cache.outputs.cache-hit != 'true'
+        run: exit 1
+
+      - uses: TheMrMilchmann/setup-msvc-dev@v2
+        with:
+          arch: x64
+
+      - name: Meson test
+        if: steps.restore-cache.outputs.cache-hit == 'true'
+        uses: BSFishy/meson-build@v1.0.3
+        with:
+          action: test
+          directory: build
+          options: -v
+          meson-version: 1.1.0

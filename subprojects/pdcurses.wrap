@@ -1,0 +1,8 @@
+[wrap-file]
+directory = PDCursesMod-meson
+source_url = https://github.com/neotene/PDCursesMod/archive/refs/tags/meson.tar.gz
+source_filename = PDCursesMod-meson.tar.gz
+source_hash = 1e802bcbf52675b4437808a61b15d9e6f6bf6f2d604937704fbc107bd61fa7e7
+
+[provide]
+pdcursesmod = pdcurses_dep
