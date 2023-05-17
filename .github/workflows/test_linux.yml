@@ -1,0 +1,38 @@
+name: libneo test linux
+
+on:
+  workflow_run:
+    workflows: ["libneo build linux"]
+    types:
+      - completed
+
+jobs:
+  ubuntu-lastest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        uses: actions/checkout@v3
+
+      - name: Restore cached build directory
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        id: restore-cache
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            build
+          key: build-linux
+          restore-keys: |
+            build-linux
+
+      - if: steps.restore-cache.outputs.cache-hit != 'true'
+        run: exit 1
+
+      - name: Meson test
+        if: steps.restore-cache.outputs.cache-hit == 'true'
+        uses: BSFishy/meson-build@v1.0.3
+        with:
+          action: test
+          directory: build
+          options: -v
+          meson-version: 1.1.0

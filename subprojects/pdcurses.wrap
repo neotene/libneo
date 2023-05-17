@@ -1,0 +1,8 @@
+[wrap-file]
+directory = PDCursesMod-0.1alpha
+source_url = https://github.com/neotene/PDCursesMod/archive/refs/tags/v0.1alpha.tar.gz
+source_filename = PDCursesMod-0.1alpha.tar.gz
+source_hash = c17bee554dc4d56a0a7c2e51d69eaf4c46f0af8b62b1da5d03641dfc816c105d
+
+[provide]
+pdcursesmod = pdcurses_dep

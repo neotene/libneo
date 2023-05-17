@@ -1,0 +1,24 @@
+name: libneo build linux
+on:
+  push:
+    branches:
+      - alpha
+    paths:
+      - "**.c"
+      - "**.h"
+      - "**.cpp"
+      - "**.hpp"
+      - "**.hxx"
+      - "**.yml"
+      - "**.build"
+
+jobs:
+  linux:
+    strategy:
+      max-parallel: 1
+      matrix:
+        boost_version: [1.81.0]
+    uses: neotene/ci/.github/workflows/build_linux.yml@v0.1alpha
+    with:
+      boost_version: ${{ matrix.boost_version }}
+      boost: false

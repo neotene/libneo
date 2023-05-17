@@ -1,0 +1,8 @@
+[wrap-file]
+directory = gainput-0.1alpha
+source_url = https://github.com/neotene/gainput/archive/refs/tags/v0.1alpha.tar.gz
+source_filename = gainput-0.1alpha.tar.gz
+source_hash = 069dea62581fd155adea3f8a9380ba3c44aa3b0c5c0f5d654fd926c8ee33fa08
+
+[provide]
+gainput = gainput_dep
