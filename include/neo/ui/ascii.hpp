@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <map>
 #include <string>
+#include <iostream>
 
 namespace neo {
 namespace ui {
@@ -323,21 +324,24 @@ enum class term_char
     right_down_corner,
 };
 
-extern std::map<term_char, ascii> default_term_chars;
-extern std::map<term_char, wchar_t> xterm_term_chars;
+using vt100_char = decltype(u'│');
 
-template <class CHAR = wchar_t>
-CHAR
-get_char(term_char const &tc)
+extern std::map<term_char, vt100_char> vt100_term_chars;
+extern std::map<term_char, wchar_t> basic_term_chars;
+
+vt100_char
+get_character(term_char const &tc)
 {
     constexpr char expected[] = "xterm-256color";
 
     char *current_term = std::getenv("TERM");
 
-    if (current_term != nullptr && std::string(current_term) == expected)
-        return xterm_term_chars[tc];
-    else
-        return static_cast<CHAR>(default_term_chars[tc]);
+    if (current_term != nullptr && std::string(current_term) == expected) {
+        return vt100_term_chars[tc];
+    }
+    else {
+        return static_cast<vt100_char>(basic_term_chars[tc]);
+    }
 }
 
 template <class CHAR>

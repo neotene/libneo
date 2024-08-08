@@ -39,18 +39,18 @@ buffer::at(size_type const &x, size_type const &y)
 void
 buffer::box(size_type const &x, size_type const &y, size_type const &width, size_type const &height)
 {
-    for (size_type i = 1; i < width - 1; ++i) at(x + i, y).ch = get_char(term_char::horizontal);
+    for (size_type i = 1; i < width - 1; ++i) at(x + i, y).ch = get_character(term_char::horizontal);
 
-    for (size_type i = 1; i < width - 1; ++i) at(x + i, y + height - 1).ch = get_char(term_char::horizontal);
+    for (size_type i = 1; i < width - 1; ++i) at(x + i, y + height - 1).ch = get_character(term_char::horizontal);
 
-    for (size_type i = 1; i < height - 1; ++i) at(x, y + i).ch = get_char(term_char::vertical);
+    for (size_type i = 1; i < height - 1; ++i) at(x, y + i).ch = get_character(term_char::vertical);
 
-    for (size_type i = 1; i < height - 1; ++i) at(x + width - 1, y + i).ch = get_char(term_char::vertical);
+    for (size_type i = 1; i < height - 1; ++i) at(x + width - 1, y + i).ch = get_character(term_char::vertical);
 
-    at(x, y).ch = get_char(term_char::left_down_corner);
-    at(x, y + height - 1).ch = get_char(term_char::right_down_corner);
-    at(x + width - 1, y + height - 1).ch = get_char(term_char::left_up_corner);
-    at(x + width - 1, y).ch = get_char(term_char::right_down_corner);
+    at(x, y).ch = get_character(term_char::left_down_corner);
+    at(x, y + height - 1).ch = get_character(term_char::right_down_corner);
+    at(x + width - 1, y + height - 1).ch = get_character(term_char::left_up_corner);
+    at(x + width - 1, y).ch = get_character(term_char::right_down_corner);
 }
 
 void
