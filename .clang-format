@@ -36,3 +36,4 @@ AlwaysBreakTemplateDeclarations: Yes
 # AlwaysBreakAfterReturnType: AllDefinitions
 SortIncludes: true
 AllowShortFunctionsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false

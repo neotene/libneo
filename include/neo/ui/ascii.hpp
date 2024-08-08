@@ -329,7 +329,8 @@ using vt100_char = decltype(u'│');
 extern std::map<term_char, vt100_char> vt100_term_chars;
 extern std::map<term_char, wchar_t> basic_term_chars;
 
-vt100_char
+template<class CHAR=vt100_char>
+CHAR
 get_character(term_char const &tc)
 {
     constexpr char expected[] = "xterm-256color";
