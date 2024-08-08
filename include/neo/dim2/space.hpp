@@ -1,14 +1,11 @@
-#pragma once
-
-#include <cinttypes>
-#include <cstdlib>
-#include <limits>
+#ifndef NEO_DIM2_SPACE
+#define NEO_DIM2_SPACE
 
 #include <array>
+#include <cstdlib>
 #include <map>
-#include <memory>
 
-#include <neo/dim2/point.hpp>
+#include "point.hpp"
 
 namespace neo {
 namespace dim2 {
@@ -16,17 +13,17 @@ namespace dim2 {
 template <class Cell, unsigned int Width, unsigned int Height>
 class space
 {
-  public:
+   public:
     using cell_type = Cell;
     using coord_type = unsigned int;
 
     constexpr static unsigned int width = Width;
     constexpr static unsigned int height = Height;
 
-  private:
+   private:
     std::array<std::array<Cell, Width>, Height> cells_;
 
-  public:
+   public:
     cell_type &operator()(coord_type const &x, coord_type const &y)
     {
         return cells_.at(x).at(y);
@@ -54,15 +51,15 @@ class view;
 template <class Space>
 class composite_space
 {
-  public:
+   public:
     using coord_type = int;
     using space_type = Space;
     using view_type = view<composite_space<space_type>>;
 
-  private:
+   private:
     std::map<point, Space> spaces_;
 
-  public:
+   public:
     space_type &operator()(coord_type const &x, coord_type const &y)
     {
         return spaces_[point(x, y)];
@@ -92,29 +89,26 @@ class composite_space
 template <class CompositeSpace>
 class view
 {
-  public:
+   public:
     using composite_space_type = CompositeSpace;
     using space_type = typename composite_space_type::space_type;
     using cell_type = typename space_type::cell_type;
     using coord_type = typename composite_space_type::coord_type;
 
-  private:
+   private:
     constexpr static unsigned int space_width = composite_space_type::space_type::width;
     constexpr static unsigned int space_height = composite_space_type::space_type::height;
 
-  private:
+   private:
     composite_space_type &composite_space_;
     int x_;
     int y_;
 
-  public:
-    view(composite_space_type &composite_space)
-        : composite_space_(composite_space)
-        , x_(0)
-        , y_(0)
+   public:
+    view(composite_space_type &composite_space) : composite_space_(composite_space), x_(0), y_(0)
     {}
 
-  public:
+   public:
     cell_type &operator()(coord_type const &x, coord_type const &y)
     {
         coord_type const offset_x = x_ * space_width;
@@ -137,3 +131,5 @@ class view
 
 }   // namespace dim2
 }   // namespace neo
+
+#endif

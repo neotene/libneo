@@ -1,21 +1,20 @@
-#pragma once
+#ifndef NEO_DIM2_POINT
+#define NEO_DIM2_POINT
 
 namespace neo {
 namespace dim2 {
 
 class point
 {
-  public:
+   public:
     using coord_type = int;
 
-  private:
+   private:
     int x_;
     int y_;
 
-  public:
-    point(coord_type const &x, coord_type const &y)
-        : x_(x)
-        , y_(y)
+   public:
+    point(coord_type const &x, coord_type const &y) : x_(x), y_(y)
     {}
 
     coord_type const &get_x() const
@@ -46,3 +45,5 @@ class point
 
 }   // namespace dim2
 }   // namespace neo
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef NEO_TERM_TYPES
+#define NEO_TERM_TYPES
 
 namespace neo {
 namespace ui {
@@ -22,3 +23,5 @@ enum class anchor
 }   // namespace terminal
 }   // namespace ui
 }   // namespace neo
+
+#endif

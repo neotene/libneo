@@ -1,4 +1,5 @@
-#pragma once
+#ifndef NEO_CONFIG
+#define NEO_CONFIG
 
 #if defined(_WIN32)
 # define NEO_SYSTEM_WINDOWS
@@ -50,4 +51,6 @@
 # define NEO_API NEO_SYMBOL_EXPORT
 #else
 # define NEO_API NEO_SYMBOL_IMPORT
+#endif
+
 #endif

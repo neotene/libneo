@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef NEO_TERM_CURSES
+#define NEO_TERM_CURSES
 #include <neo/config.hpp>
 
 #if defined(NEO_SYSTEM_WINDOWS)
@@ -11,3 +11,5 @@
 #else
 # include <curses.h>
 #endif   // NEO_SYSTEM_WINDOWS
+
+#endif

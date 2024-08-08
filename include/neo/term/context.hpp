@@ -1,10 +1,10 @@
-#pragma once
+#ifndef NEO_TERM_CONTEXT
+#define NEO_TERM_CONTEXT
 
-#include <neo/config.hpp>
-
-#include <neo/term/buffer.hpp>
-#include <neo/ui/context.hpp>
-#include <neo/ui/handle.hpp>
+#include "buffer.hpp"
+#include "neo/config.hpp"
+#include "neo/ui/context.hpp"
+#include "neo/ui/handle.hpp"
 
 namespace neo {
 namespace ui {
@@ -12,17 +12,17 @@ namespace terminal {
 
 class NEO_API context : public ui::context<buffer>
 {
-  private:
+   private:
     handle *handle_;
 
-  public:
+   public:
     context();
     ~context();
 
-  private:
+   private:
     handle *init();
 
-  public:
+   public:
     virtual size_t width() const override;
     virtual size_t height() const override;
     // virtual size_t cursor_x() const override;
@@ -34,3 +34,5 @@ class NEO_API context : public ui::context<buffer>
 }   // namespace terminal
 }   // namespace ui
 }   // namespace neo
+
+#endif
