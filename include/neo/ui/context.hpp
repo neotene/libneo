@@ -22,7 +22,6 @@ class context
     window_container_type objects_;
     object_iterator_container_type iterators_;
     buffer_type buffer_;
-    // void *input_manager_impl_;
     input_manager input_manager_;
 
    public:
@@ -33,7 +32,7 @@ class context
     virtual size_t height() const = 0;
     virtual void refresh() = 0;
 
-    virtual input read() const = 0;
+    virtual input read() = 0;
 
     buffer_type &buffer()
     {
@@ -47,9 +46,7 @@ class context
             refresh();
 
             input input = input_manager_.get();
-            // manager.Update();
 
-            // if (map.GetBoolWasDown(key::escape))
             if (input.special(input::special_key::escape))
             {
                 pop_window();

@@ -5,9 +5,6 @@
 #ifdef NEO_SYSTEM_WINDOWS
 # include <windows.h>
 #else
-# include <gainput/GainputInputDeviceKeyboard.h>
-# include <gainput/GainputInputMap.h>
-# include <gainput/GainputInputMap.h>
 # include <gainput/gainput.h>
 
 #endif   // NEO_SYSTEM_WINDOWS
@@ -32,7 +29,7 @@ class context::p_impl
     {
         WINDOW *win_hdl = ::initscr();
 
-        if (!win_hdl_)
+        if (!win_hdl)
             throw std::runtime_error("PDCurses init: could not initialize screen");
         if (::noecho() != OK)
             throw std::runtime_error("PDCurses init: could not initialize noecho");
@@ -41,9 +38,18 @@ class context::p_impl
 
         return win_hdl;
     }
+
+   public:
+    WINDOW *win_hdl() const
+    {
+        return win_hdl_;
+    }
+
 #ifdef NEO_SYSTEM_WINDOWS
+   private:
     HANDLE std_handle_;
 #else
+   private:
     gainput::InputManager input_manager_;
     gainput::InputMap input_map_;
 
@@ -58,7 +64,7 @@ class context::p_impl
         return input_map_;
     }
 
-    p_impl(WINDOW *win_hdl) : win_hdl_(win_hdl), input_map_(input_manager_)
+    p_impl() : input_map_(input_manager_)
     {
         win_hdl_ = init_win_hdl();
 
@@ -66,6 +72,9 @@ class context::p_impl
 
         input_map_.MapBool(input::special_key::backspace, keyboardId, gainput::KeyBackSpace);
         input_map_.MapBool(input::special_key::enter, keyboardId, gainput::KeyKpEnter);
+        input_map_.MapBool(input::special_key::escape, keyboardId, gainput::KeyEscape);
+        input_map_.MapBool(input::special_key::shift, keyboardId, gainput::KeyShiftL);
+        input_map_.MapBool(input::special_key::tab, keyboardId, gainput::KeyTab);
     }
 #endif
 };
@@ -79,12 +88,14 @@ context::context() : p_impl_(std::make_unique<p_impl>())
 #endif
 }
 
+context::~context() = default;
+
 size_t
 context::width() const
 {
     [[maybe_unused]] int h;
     int w;
-    getmaxyx(reinterpret_cast<WINDOW *>(handle_), h, w);
+    getmaxyx(p_impl_.get()->win_hdl(), h, w);
     return w;
 }
 
@@ -93,7 +104,7 @@ context::height() const
 {
     int h;
     [[maybe_unused]] int w;
-    getmaxyx(reinterpret_cast<WINDOW *>(handle_), h, w);
+    getmaxyx(p_impl_.get()->win_hdl(), h, w);
     return h;
 }
 
@@ -141,14 +152,16 @@ context::read()
 {
     p_impl_.get()->input_manager().Update();
 
-    // May need some platform-specific message handling here
-
-    if (p_impl_.map().GetBoolWasDown(ButtonConfirm))
-    {
-        // Confirmed!
-    }
-
     input input;
+
+    input.specials()[input::special_key::shift] = p_impl_.get()->input_map().GetBoolWasDown(input::special_key::shift);
+    input.specials()[input::special_key::tab] = p_impl_.get()->input_map().GetBoolWasDown(input::special_key::tab);
+    input.specials()[input::special_key::escape] =
+        p_impl_.get()->input_map().GetBoolWasDown(input::special_key::escape);
+    input.specials()[input::special_key::enter] = p_impl_.get()->input_map().GetBoolWasDown(input::special_key::enter);
+    input.specials()[input::special_key::backspace] =
+        p_impl_.get()->input_map().GetBoolWasDown(input::special_key::backspace);
+
     return input;
 }
 #endif
