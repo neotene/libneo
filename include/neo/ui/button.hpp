@@ -34,15 +34,11 @@ class button : public object<CONTEXT>
 
    public:
     button(typename parent_type::context_type &ui_context, attributes<context_type> const &attrs,
-           std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> const &text,
-           frame<CONTEXT> *parent = nullptr)
+           std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> const &text)
         : parent_type(ui_context, attrs, true)
         , text_(text)
         , focused_(false)
     {
-        if (!parent)
-            return;
-        parent->add_child(this);
         this->on_focus_change([this](bool focused) { this->focused_ = focused; });
 
         this->on_input([this](input const &input) {

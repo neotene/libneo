@@ -6,11 +6,11 @@
 
 namespace neo {
 namespace ui {
-namespace terminal {
+namespace term {
 
-using label = ui::label<terminal::context>;
+using label = ui::label<term::context>;
 
-}   // namespace terminal
+}   // namespace term
 }   // namespace ui
 }   // namespace neo
 

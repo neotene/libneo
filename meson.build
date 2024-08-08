@@ -20,7 +20,6 @@ libneo_deps += dependency('gainput')
 
 libneo_src = [
   'src/uuid.cpp',
-  'src/term/common.cpp',
   'src/ui/ascii.cpp',
   'src/ui/input.cpp',
   'src/term/buffer.cpp',
@@ -56,14 +55,8 @@ neo_dep = declare_dependency(
   compile_args: libneo_cpp_args + cpp_args,
 )
 
- executable('demo1',
-    ['demo1.cpp'],
-    dependencies: [neo_dep],
-    cpp_args: cpp_args,
-  )
-
-executable('demo2',
-    ['demo2.cpp'],
+executable('demo',
+    ['demo.cpp'],
     dependencies: [neo_dep],
     cpp_args: cpp_args,
   )

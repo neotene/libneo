@@ -2,7 +2,6 @@
 #define NEO_UI_SHAPE
 
 #include "neo/ui/attributes.hpp"
-#include "neo/ui/frame.hpp"
 #include "neo/ui/object.hpp"
 
 namespace neo {
@@ -18,14 +17,9 @@ class shape : public object<Context>
     using typename parent_type::context_type;
 
    public:
-    shape(typename parent_type::context_type &ui_context, attributes<context_type> const &attrs,
-          frame<Context> *parent = nullptr)
+    shape(typename parent_type::context_type &ui_context, attributes<context_type> const &attrs)
         : object<Context>(ui_context, attrs)
-    {
-        if (!parent)
-            return;
-        parent->add_child(this);
-    }
+    {}
 
     virtual void draw() override
     {

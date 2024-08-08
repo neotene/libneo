@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "neo/ui/frame.hpp"
 #include "neo/ui/input.hpp"
+#include "neo/ui/object.hpp"
 
 namespace neo {
 namespace ui {
@@ -14,16 +14,19 @@ class context
 {
    public:
     using buffer_type = BUFFER;
-    using frame_type = frame<context<BUFFER>>;
-    using frame_container_type = std::vector<frame_type *>;
-    using frame_iterator_container_type = std::vector<typename frame_type::frame_container_type::iterator>;
+    using layer_type = std::vector<object<context<BUFFER>> *>;
+    using stack_type = std::vector<layer_type>;
 
    protected:
-    frame_container_type frames_stack_;
-    frame_iterator_container_type iterators_;
+    stack_type stack_;
     buffer_type buffer_;
 
    public:
+    context()
+    {
+        push_new_layer();
+    }
+
     virtual ~context()
     {}
 
@@ -38,9 +41,25 @@ class context
         return buffer_;
     }
 
+    template <class CONTEXT>
+    void add_object_to_current_layer(ui::object<CONTEXT> *ui_object)
+    {
+        stack_.back().push_back(ui_object);
+    }
+
+    void push_new_layer()
+    {
+        stack_.push_back(layer_type());
+    }
+
+    void pop_top_layer()
+    {
+        stack_.pop_back();
+    }
+
     void run()
     {
-        for (; !frames_stack_.empty();)
+        for (; !stack_.empty();)
         {
             refresh();
 
@@ -48,7 +67,6 @@ class context
 
             if (input.special(input::special_key::escape))
             {
-                pop();
                 continue;
             }
 
@@ -57,36 +75,8 @@ class context
                 bool backward = false;
                 if (input.special(input::special_key::shift))
                     backward = true;
-                typename frame_type::frame_container_type::iterator start_it = frames_stack_.back()->children().begin();
-                typename frame_type::frame_container_type::iterator it =
-                    frames_stack_.back()->first_focusable(start_it, backward);
             }
         }
-    }
-
-    template <class CONTEXT>
-    void push(frame<CONTEXT> *frame)
-    {
-        frames_stack_.push_back(reinterpret_cast<frame_type *>(&frame));
-        iterators_.push_back(frames_stack_.back()->first_focusable());
-        for (typename frame_type::frame_container_type::value_type obj : frames_stack_.back()->children())
-            obj->on_show();
-        (*iterators_.back())->focus_change(true);
-    }
-
-    void pop()
-    {
-        for (typename frame_type::frame_container_type::value_type obj : frames_stack_.back()->children())
-            obj->on_hide();
-        frames_stack_.pop_back();
-        (*iterators_.back())->focus_change(false);
-        iterators_.pop_back();
-    }
-
-    void pop_all()
-    {
-        frames_stack_.clear();
-        iterators_.clear();
     }
 };
 

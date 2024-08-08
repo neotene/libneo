@@ -28,7 +28,7 @@ class field : public object<CONTEXT>
 
    public:
     field(typename parent_type::context_type &ui_context, attributes<context_type> const &attrs, unsigned int size,
-          bool is_password, frame<CONTEXT> *parent = nullptr)
+          bool is_password)
         : parent_type(ui_context, attrs, true)
         , focused_(false)
         , size_(size)
@@ -37,10 +37,6 @@ class field : public object<CONTEXT>
         , clear_on_hide_(true)
     {
         text_.reserve(size);
-
-        if (!parent)
-            return;
-        parent->add_child(this);
 
         this->on_focus_change([this](bool focused) { this->focused_ = focused; });
 

@@ -1,24 +1,27 @@
+#include <gtest/gtest.h>
+
+#include <neo/neo.hpp>
+
 #include "neo/term/attributes.hpp"
 #include "neo/term/buffer.hpp"
 #include "neo/ui/label.hpp"
-#include <gtest/gtest.h>
-#include <neo/neo.hpp>
 
-class test_buffer : public neo::ui::terminal::buffer
+
+class test_buffer : public neo::ui::term::buffer
 {
-  public:
+   public:
     using size_type = size_t;
 };
 
 class test_context
 {
-  public:
+   public:
     using buffer_type = test_buffer;
 
-  private:
+   private:
     buffer_type buffer_;
 
-  public:
+   public:
     buffer_type &buffer()
     {
         return buffer_;

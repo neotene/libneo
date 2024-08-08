@@ -9,7 +9,7 @@
 
 namespace neo {
 namespace ui {
-namespace terminal {
+namespace term {
 
 class NEO_API context : public ui::context<buffer>
 {
@@ -31,7 +31,7 @@ class NEO_API context : public ui::context<buffer>
     virtual size_t height() const override;
 };
 
-}   // namespace terminal
+}   // namespace term
 }   // namespace ui
 }   // namespace neo
 

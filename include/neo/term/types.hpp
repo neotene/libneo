@@ -3,7 +3,7 @@
 
 namespace neo {
 namespace ui {
-namespace terminal {
+namespace term {
 
 using screen_size_t = unsigned int;
 
@@ -20,7 +20,7 @@ enum class anchor
     left_center
 };
 
-}   // namespace terminal
+}   // namespace term
 }   // namespace ui
 }   // namespace neo
 

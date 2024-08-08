@@ -26,17 +26,12 @@ class label : public object<CONTEXT>
 
    public:
     label(typename parent_type::context_type &ui_context, attributes<context_type> const &attrs,
-          std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> const &text,
-          frame<CONTEXT> *parent = nullptr)
+          std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> const &text)
         : parent_type(ui_context, attrs)
         , text_(text)
         , fg_(color::white)
         , bg_(color::black)
-    {
-        if (!parent)
-            return;
-        parent->add_child(this);
-    }
+    {}
 
    public:
     unsigned int size() const

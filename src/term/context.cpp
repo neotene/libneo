@@ -3,7 +3,6 @@
 #include "neo/term/context.hpp"
 #include "neo/ui/color.hpp"
 
-
 #ifdef NEO_SYSTEM_WINDOWS
 # include <windows.h>
 #else
@@ -20,7 +19,7 @@
 
 namespace neo {
 namespace ui {
-namespace terminal {
+namespace term {
 
 std::map<color, int> const colors = {
     {color::white, COLOR_WHITE}, {color::black, COLOR_BLACK}, {color::red, COLOR_RED},
@@ -183,9 +182,10 @@ context::refresh()
 {
     buffer_.fill(buffer_type::cell_type(' '));
 
-    for (auto &frame : frames_stack_)
+    for (layer_type &layer : stack_)
     {
-        frame->draw();
+        for (auto &obj : layer)
+            obj->draw();
     }
 
     buffer_type::size_type y = 0;
@@ -208,6 +208,6 @@ context::print_ch16(unsigned int x, unsigned int y, char16_t ch, std::pair<color
     ::attroff(COLOR_PAIR(1));
 }
 
-}   // namespace terminal
+}   // namespace term
 }   // namespace ui
 }   // namespace neo

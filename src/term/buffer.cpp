@@ -3,10 +3,9 @@
 #include "neo/term/buffer.hpp"
 #include "neo/ui/ascii.hpp"
 
-
 namespace neo {
 namespace ui {
-namespace terminal {
+namespace term {
 
 void
 buffer::fill_area(size_type const &x, size_type const &y, size_type const &width, size_type const &height)
@@ -86,6 +85,6 @@ buffer::text(size_type const &x, size_type const &y, std::basic_string<term_cell
         at(x + i, y) = term_cell(text[i], foreground_background.first, foreground_background.second);
 }
 
-}   // namespace terminal
+}   // namespace term
 }   // namespace ui
 }   // namespace neo

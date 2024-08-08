@@ -6,11 +6,11 @@
 
 namespace neo {
 namespace ui {
-namespace terminal {
+namespace term {
 
 using shape = ui::shape<context>;
 
-}   // namespace terminal
+}   // namespace term
 }   // namespace ui
 }   // namespace neo
 

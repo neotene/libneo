@@ -10,7 +10,7 @@
 
 namespace neo {
 namespace ui {
-namespace terminal {
+namespace term {
 
 class NEO_API buffer
 {
@@ -50,7 +50,7 @@ class NEO_API buffer
               std::pair<color, color> const &foreground_background = {color::white, color::black});
 };
 
-}   // namespace terminal
+}   // namespace term
 }   // namespace ui
 }   // namespace neo
 

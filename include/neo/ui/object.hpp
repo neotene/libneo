@@ -34,7 +34,9 @@ class object
         : ui_context_(ui_context)
         , attributes_(attrs)
         , focusable_(focusable)
-    {}
+    {
+        ui_context.add_object_to_current_layer(this);
+    }
 
     virtual ~object() {};
 
