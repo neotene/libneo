@@ -18,7 +18,9 @@ input::specials_default()
     return specials_default_;
 }
 
-input::input() : specials_(specials_default_), key_(-1)
+input::input()
+    : specials_(specials_default_)
+    , key_(-1)
 {}
 
 input::specials_container_t const&
@@ -84,7 +86,8 @@ struct input_manager_impl {
     // {}
 };
 
-input_manager::input_manager() : pimpl_(new input_manager_impl)
+input_manager::input_manager()
+    : pimpl_(new input_manager_impl)
 {
     // input_manager_impl *impl_p = reinterpret_cast<input_manager_impl *>(pimpl_);
 

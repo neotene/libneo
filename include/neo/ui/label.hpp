@@ -28,7 +28,10 @@ class label : public object<CONTEXT>
     label(typename parent_type::context_type &ui_context, attributes<context_type> const &attrs,
           std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> const &text,
           frame<CONTEXT> *parent = nullptr)
-        : parent_type(ui_context, attrs), text_(text), fg_(color::white), bg_(color::black)
+        : parent_type(ui_context, attrs)
+        , text_(text)
+        , fg_(color::white)
+        , bg_(color::black)
     {
         if (!parent)
             return;

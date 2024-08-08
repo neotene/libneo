@@ -31,10 +31,12 @@ class object
 
    public:
     object(context_type &ui_context, attributes<context_type> const &attrs, bool focusable = false)
-        : ui_context_(ui_context), attributes_(attrs), focusable_(focusable)
+        : ui_context_(ui_context)
+        , attributes_(attrs)
+        , focusable_(focusable)
     {}
 
-    virtual ~object(){};
+    virtual ~object() {};
 
     virtual void draw() = 0;
 
@@ -62,7 +64,8 @@ class object
 
     void input(input const &input)
     {
-        for (std::pair<uuid_type, input_callback_type> const func : input_callbacks_) func.second(input);
+        for (std::pair<uuid_type, input_callback_type> const func : input_callbacks_)
+            func.second(input);
     }
 
     attributes<Context> const &get_attributes() const

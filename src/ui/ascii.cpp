@@ -1,8 +1,8 @@
-#include "neo/ui/ascii.hpp"
-
 #include <map>
 
 #include "neo/term/curses.hpp"
+#include "neo/ui/ascii.hpp"
+
 
 namespace neo {
 namespace ui {

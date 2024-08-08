@@ -37,4 +37,4 @@ AlwaysBreakTemplateDeclarations: Yes
 SortIncludes: true
 AllowShortFunctionsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
-LanguageStandard: latest
+PackConstructorInitializers: Never
