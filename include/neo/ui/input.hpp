@@ -1,15 +1,17 @@
-﻿#pragma once
+﻿#ifndef NEO_UI_INPUT
+#define NEO_UI_INPUT
 
 #include <map>
 
-#include <neo/config.hpp>
+#include "neo/config.hpp"
+
 
 namespace neo {
 namespace ui {
 
 class NEO_API input
 {
-  public:
+   public:
     enum class special_key
     {
         tab,
@@ -20,20 +22,20 @@ class NEO_API input
     };
     using specials_container_t = std::map<special_key, bool>;
 
-  private:
+   private:
     static specials_container_t specials_default_;
 
-  private:
+   private:
     static specials_container_t const &specials_default();
 
-  private:
+   private:
     specials_container_t specials_;
     wchar_t key_;
 
-  public:
+   public:
     input();
 
-  public:
+   public:
     specials_container_t const &specials() const;
     specials_container_t &specials();
     bool special(special_key key) const;
@@ -45,15 +47,17 @@ class NEO_API input
 
 class NEO_API input_manager
 {
-  private:
+   private:
     void *pimpl_;
 
-  public:
+   public:
     input_manager();
 
-  public:
+   public:
     input get();
 };
 
 }   // namespace ui
 }   // namespace neo
+
+#endif

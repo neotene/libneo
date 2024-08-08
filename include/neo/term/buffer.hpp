@@ -8,7 +8,6 @@
 #include "neo/config.hpp"
 #include "neo/ui/color.hpp"
 
-
 namespace neo {
 namespace ui {
 namespace terminal {

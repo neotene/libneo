@@ -1,13 +1,10 @@
 #include <map>
-#include <stdexcept>
+#include <neo/term/curses.hpp>
 #include <string>
 
-#include <neo/term/curses.hpp>
+#include "neo/ui/color.hpp"
+#include "neo/ui/print.hpp"
 
-#include <neo/ui/color.hpp>
-#include <neo/ui/object.hpp>
-
-#include <neo/ui/print.hpp>
 
 namespace neo {
 

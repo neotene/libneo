@@ -1,8 +1,8 @@
 #ifndef NEO_TERM_CONTEXT
 #define NEO_TERM_CONTEXT
 
-#include "buffer.hpp"
 #include "neo/config.hpp"
+#include "neo/term/buffer.hpp"
 #include "neo/ui/context.hpp"
 #include "neo/ui/handle.hpp"
 
@@ -25,9 +25,7 @@ class NEO_API context : public ui::context<buffer>
    public:
     virtual size_t width() const override;
     virtual size_t height() const override;
-    // virtual size_t cursor_x() const override;
-    // virtual size_t cursor_y() const override;
-    // virtual input read() const override;
+    virtual input read() const override;
     virtual void refresh() override;
 };
 

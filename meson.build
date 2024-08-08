@@ -40,10 +40,6 @@ endif
 
 tests_cpp_args = []
 
-message('--------------')
-message(libneo_cpp_args)
-message(cpp_args)
-
 libneo_incs = include_directories(['include'])
 
 libneo = library('neo',
@@ -60,8 +56,14 @@ neo_dep = declare_dependency(
   compile_args: libneo_cpp_args + cpp_args,
 )
 
- executable('demo',
-    ['demo.cpp'],
+ executable('demo1',
+    ['demo1.cpp'],
+    dependencies: [neo_dep],
+    cpp_args: cpp_args,
+  )
+
+executable('demo2',
+    ['demo2.cpp'],
     dependencies: [neo_dep],
     cpp_args: cpp_args,
   )

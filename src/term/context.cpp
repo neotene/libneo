@@ -1,23 +1,22 @@
 #include <curses.h>
-#include <neo/config.hpp>
+
+#include "neo/config.hpp"
 
 #ifdef NEO_SYSTEM_WINDOWS
 # include <windows.h>
 #endif   // NEO_SYSTEM_WINDOWS
 
-#include <neo/term/curses.hpp>
 #include <panel.h>
 
 // #include <gainput/gainput.h>
 
 #include <stdexcept>
 
-#include <neo/ui/handle.hpp>
-#include <neo/ui/input.hpp>
-#include <neo/ui/print.hpp>
-
-#include <neo/term/buffer.hpp>
-#include <neo/term/context.hpp>
+#include "neo/term/buffer.hpp"
+#include "neo/term/context.hpp"
+#include "neo/ui/handle.hpp"
+#include "neo/ui/input.hpp"
+#include "neo/ui/print.hpp"
 
 namespace neo {
 namespace ui {
@@ -38,8 +37,7 @@ context::init()
     return reinterpret_cast<ui::handle *>(hdl);
 }
 
-context::context()
-    : handle_(init())
+context::context() : handle_(init())
 {
     buffer_.resize(width(), height());
 }
@@ -93,42 +91,41 @@ getconchar(KEY_EVENT_RECORD &krec)
 }
 #endif
 
-// #ifdef NEO_SYSTEM_WINDOWS
-// input
-// context::read() const
-// {
-//     KEY_EVENT_RECORD key;
-//     getconchar(key);
-//     input input;
-//     input.key() = key.uChar.UnicodeChar;
-//     input.specials()[input::special_key::shift] = (key.dwControlKeyState & SHIFT_PRESSED) == SHIFT_PRESSED;
-//     input.specials()[input::special_key::tab] = input.key() == 9;
-//     input.specials()[input::special_key::escape] = input.key() == 27;
-//     input.specials()[input::special_key::enter] = input.key() == 13;
-//     input.specials()[input::special_key::backspace] = input.key() == 8;
-//     return input;
-// }
-// #else
-// input
-// context::read() const
-// {
+#ifdef NEO_SYSTEM_WINDOWS
+input
+context::read() const
+{
+    KEY_EVENT_RECORD key;
+    getconchar(key);
+    input input;
+    input.key() = key.uChar.UnicodeChar;
+    input.specials()[input::special_key::shift] = (key.dwControlKeyState & SHIFT_PRESSED) == SHIFT_PRESSED;
+    input.specials()[input::special_key::tab] = input.key() == 9;
+    input.specials()[input::special_key::escape] = input.key() == 27;
+    input.specials()[input::special_key::enter] = input.key() == 13;
+    input.specials()[input::special_key::backspace] = input.key() == 8;
+    return input;
+}
+#else
+input
+context::read() const
+{
+    // gainput::DeviceButtonSpec outButtons;
+    // manager.GetAnyButtonDown(&outButtons, 1);
 
-//     // gainput::DeviceButtonSpec outButtons;
-//     // manager.GetAnyButtonDown(&outButtons, 1);
+    // auto ch = std::wcin.get();
+    // // int ch = ::wgetch(reinterpret_cast<WINDOW *>(handle_));
+    // auto s = keyname(ch);
+    // input.key() = ch;
+    // input.specials()[input::special_key::shift_tab] = s == std::string("^[");
+    // input.specials()[input::special_key::tab] = input.key() == 9;
+    // input.specials()[input::special_key::escape] = input.key() == 27;
+    // input.specials()[input::special_key::enter] = input.key() == 13;
+    // input.specials()[input::special_key::backspace] = input.key() == 127;
 
-//     // auto ch = std::wcin.get();
-//     // // int ch = ::wgetch(reinterpret_cast<WINDOW *>(handle_));
-//     // auto s = keyname(ch);
-//     // input.key() = ch;
-//     // input.specials()[input::special_key::shift_tab] = s == std::string("^[");
-//     // input.specials()[input::special_key::tab] = input.key() == 9;
-//     // input.specials()[input::special_key::escape] = input.key() == 27;
-//     // input.specials()[input::special_key::enter] = input.key() == 13;
-//     // input.specials()[input::special_key::backspace] = input.key() == 127;
-
-//     return input;
-// }
-// #endif
+    return input;
+}
+#endif
 
 void
 context::refresh()

@@ -2,7 +2,7 @@
 
 // #include <gainput/gainput.h>
 
-#include <neo/ui/input.hpp>
+#include "neo/ui/input.hpp"
 
 namespace neo {
 namespace ui {
@@ -12,24 +12,22 @@ input::specials_container_t input::specials_default_ = {
     // {input::special_key::enter, false}
 };
 
-input::specials_container_t const &
+input::specials_container_t const&
 input::specials_default()
 {
     return specials_default_;
 }
 
-input::input()
-    : specials_(specials_default_)
-    , key_(-1)
+input::input() : specials_(specials_default_), key_(-1)
 {}
 
-input::specials_container_t const &
+input::specials_container_t const&
 input::specials() const
 {
     return specials_;
 }
 
-input::specials_container_t &
+input::specials_container_t&
 input::specials()
 {
     return specials_;
@@ -47,7 +45,7 @@ input::key() const
     return key_;
 }
 
-wchar_t &
+wchar_t&
 input::key()
 {
     return key_;
@@ -86,10 +84,8 @@ struct input_manager_impl {
     // {}
 };
 
-input_manager::input_manager()
-    : pimpl_(new input_manager_impl)
+input_manager::input_manager() : pimpl_(new input_manager_impl)
 {
-
     // input_manager_impl *impl_p = reinterpret_cast<input_manager_impl *>(pimpl_);
 
     // impl_p->map.MapBool(key::tab, impl_p->keyboardId, gainput::KeyTab);

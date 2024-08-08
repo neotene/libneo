@@ -1,7 +1,5 @@
-#pragma once
-
-// #include <neo/ui/object.hpp>
-// #include <neo/ui/frame.hpp>
+#ifndef NEO_UI_ATTRIBUTES
+#define NEO_UI_ATTRIBUTES
 
 namespace neo {
 namespace ui {
@@ -29,11 +27,11 @@ enum class anchor
 template <class Context>
 class attributes
 {
-  public:
+   public:
     using context_type = Context;
     using size_type = typename Context::buffer_type::size_type;
 
-  private:
+   private:
     size_type x_;
     size_type y_;
     size_type width_;
@@ -42,7 +40,7 @@ class attributes
     anchor self_anchor_;
     anchor relative_anchor_;
 
-  public:
+   public:
     attributes(size_type const &x, size_type const &y)
         : x_(x)
         , y_(y)
@@ -85,7 +83,7 @@ class attributes
         , relative_anchor_(relative_anchor)
     {}
 
-  public:
+   public:
     size_type get_width() const
     {
         return width_;
@@ -103,35 +101,35 @@ class attributes
             size_type x = x_;
             switch (self_anchor_)
             {
-            case anchor::top_center:
-            case anchor::center:
-            case anchor::bottom_center:
-                x -= width_ / 2;
-                break;
-            case anchor::top_right:
-            case anchor::center_right:
-            case anchor::bottom_right:
-                x -= width_;
-                break;
-            default:
-                break;
+                case anchor::top_center:
+                case anchor::center:
+                case anchor::bottom_center:
+                    x -= width_ / 2;
+                    break;
+                case anchor::top_right:
+                case anchor::center_right:
+                case anchor::bottom_right:
+                    x -= width_;
+                    break;
+                default:
+                    break;
             }
             switch (relative_anchor_)
             {
-            case anchor::top_left:
-            case anchor::center_left:
-            case anchor::bottom_left:
-                return relative_->get_x() + x;
-            case anchor::top_center:
-            case anchor::center:
-            case anchor::bottom_center:
-                return relative_->get_x() + relative_->get_width() / 2 + x;
-            case anchor::top_right:
-            case anchor::center_right:
-            case anchor::bottom_right:
-                return relative_->get_x() + relative_->get_width() + x;
-            default:
-                break;
+                case anchor::top_left:
+                case anchor::center_left:
+                case anchor::bottom_left:
+                    return relative_->get_x() + x;
+                case anchor::top_center:
+                case anchor::center:
+                case anchor::bottom_center:
+                    return relative_->get_x() + relative_->get_width() / 2 + x;
+                case anchor::top_right:
+                case anchor::center_right:
+                case anchor::bottom_right:
+                    return relative_->get_x() + relative_->get_width() + x;
+                default:
+                    break;
             }
         }
         return x_;
@@ -144,35 +142,35 @@ class attributes
             size_type y = y_;
             switch (self_anchor_)
             {
-            case anchor::center_left:
-            case anchor::center:
-            case anchor::center_right:
-                y -= height_ / 2;
-                break;
-            case anchor::bottom_left:
-            case anchor::bottom_center:
-            case anchor::bottom_right:
-                y -= height_;
-                break;
-            default:
-                break;
+                case anchor::center_left:
+                case anchor::center:
+                case anchor::center_right:
+                    y -= height_ / 2;
+                    break;
+                case anchor::bottom_left:
+                case anchor::bottom_center:
+                case anchor::bottom_right:
+                    y -= height_;
+                    break;
+                default:
+                    break;
             }
             switch (relative_anchor_)
             {
-            case anchor::top_left:
-            case anchor::top_center:
-            case anchor::top_right:
-                return relative_->get_y() + y;
-            case anchor::center_left:
-            case anchor::center:
-            case anchor::center_right:
-                return relative_->get_y() + relative_->get_height() / 2 + y;
-            case anchor::bottom_left:
-            case anchor::bottom_center:
-            case anchor::bottom_right:
-                return relative_->get_y() + relative_->get_height() + y;
-            default:
-                break;
+                case anchor::top_left:
+                case anchor::top_center:
+                case anchor::top_right:
+                    return relative_->get_y() + y;
+                case anchor::center_left:
+                case anchor::center:
+                case anchor::center_right:
+                    return relative_->get_y() + relative_->get_height() / 2 + y;
+                case anchor::bottom_left:
+                case anchor::bottom_center:
+                case anchor::bottom_right:
+                    return relative_->get_y() + relative_->get_height() + y;
+                default:
+                    break;
             }
         }
         return y_;
@@ -181,3 +179,5 @@ class attributes
 
 }   // namespace ui
 }   // namespace neo
+
+#endif

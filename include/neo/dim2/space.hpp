@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <map>
 
-#include "point.hpp"
+#include "neo/dim2/point.hpp"
 
 namespace neo {
 namespace dim2 {

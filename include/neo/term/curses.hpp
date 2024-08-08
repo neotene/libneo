@@ -1,6 +1,6 @@
 #ifndef NEO_TERM_CURSES
 #define NEO_TERM_CURSES
-#include <neo/config.hpp>
+#include "neo/config.hpp"
 
 #if defined(NEO_SYSTEM_WINDOWS)
 # include <curses.h>

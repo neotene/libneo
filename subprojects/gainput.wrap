@@ -2,7 +2,7 @@
 directory = gainput-meson
 source_url = https://github.com/neotene/gainput/archive/refs/tags/meson.tar.gz
 source_filename = gainput-meson.tar.gz
-source_hash = 8ea92567d62bf9f5c20f9d8582d292e7940a7d5f696545c708dd4933704306c5
+source_hash = d75df03005c4ab1e4a3456c2a402bc1130aef0a2928a11502e043310e2e47f3b
 
 [provide]
 gainput = gainput_dep

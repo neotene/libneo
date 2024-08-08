@@ -1,12 +1,11 @@
-#pragma once
+#ifndef NEO_UI_FRAME
+#define NEO_UI_FRAME
 
 #include <stdexcept>
 #include <vector>
 
-#include <neo/config.hpp>
-#include <neo/ui/attributes.hpp>
-#include <neo/ui/context.hpp>
-#include <neo/ui/object.hpp>
+#include "neo/ui/attributes.hpp"
+#include "neo/ui/object.hpp"
 
 namespace neo {
 namespace ui {
@@ -14,17 +13,17 @@ namespace ui {
 template <class CONTEXT>
 class frame : public object<CONTEXT>
 {
-  public:
+   public:
     using parent_type = object<CONTEXT>;
     using dimension_type = typename parent_type::context_type::buffer_type::size_type;
     using coord_type = typename parent_type::coord_type;
     using frame_container_type = std::vector<object<CONTEXT> *>;
     using typename parent_type::context_type;
 
-  private:
+   private:
     frame_container_type children_;
 
-  public:
+   public:
     frame(context_type &ui_context, attributes<context_type> const &attrs, frame *parent = nullptr)
         : parent_type(ui_context, attrs)
     {
@@ -37,8 +36,7 @@ class frame : public object<CONTEXT>
     {
         this->ui_context_.buffer().fill_area(this->get_attributes().get_x(), this->get_attributes().get_y(),
                                              this->get_attributes().get_width(), this->get_attributes().get_height());
-        for (auto *child : children_)
-            child->draw();
+        for (auto *child : children_) child->draw();
         // this->ui_context_.buffer().box(this->get_attributes().get_x(), this->get_attributes().get_y(),
         //                                this->get_attributes().get_width(), this->get_attributes().get_height());
     }
@@ -92,3 +90,5 @@ class frame : public object<CONTEXT>
 
 }   // namespace ui
 }   // namespace neo
+
+#endif

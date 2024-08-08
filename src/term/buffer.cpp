@@ -1,8 +1,8 @@
-#include "neo/ui/ascii.hpp"
+#include "neo/term/buffer.hpp"
+
 #include <algorithm>
-#include <neo/term/buffer.hpp>
-#include <neo/ui/print.hpp>
-#include <stdexcept>
+
+#include "neo/ui/ascii.hpp"
 
 namespace neo {
 namespace ui {
@@ -12,8 +12,7 @@ void
 buffer::fill_area(size_type const &x, size_type const &y, size_type const &width, size_type const &height)
 {
     for (size_type i = 0; i < width; ++i)
-        for (size_type j = 0; j < height; ++j)
-            at(i + x, j + y) = ' ';
+        for (size_type j = 0; j < height; ++j) at(i + x, j + y) = ' ';
 }
 
 void
@@ -26,8 +25,7 @@ void
 buffer::resize(size_type width, size_type height)
 {
     buffer_.resize(height);
-    for (line_type &line : buffer_)
-        line.resize(width);
+    for (line_type &line : buffer_) line.resize(width);
 }
 
 buffer::character_type &
@@ -41,17 +39,13 @@ buffer::at(size_type const &x, size_type const &y)
 void
 buffer::box(size_type const &x, size_type const &y, size_type const &width, size_type const &height)
 {
-    for (size_type i = 1; i < width - 1; ++i)
-        at(x + i, y).ch = get_char(term_char::horizontal);
+    for (size_type i = 1; i < width - 1; ++i) at(x + i, y).ch = get_char(term_char::horizontal);
 
-    for (size_type i = 1; i < width - 1; ++i)
-        at(x + i, y + height - 1).ch = get_char(term_char::horizontal);
+    for (size_type i = 1; i < width - 1; ++i) at(x + i, y + height - 1).ch = get_char(term_char::horizontal);
 
-    for (size_type i = 1; i < height - 1; ++i)
-        at(x, y + i).ch = get_char(term_char::vertical);
+    for (size_type i = 1; i < height - 1; ++i) at(x, y + i).ch = get_char(term_char::vertical);
 
-    for (size_type i = 1; i < height - 1; ++i)
-        at(x + width - 1, y + i).ch = get_char(term_char::vertical);
+    for (size_type i = 1; i < height - 1; ++i) at(x + width - 1, y + i).ch = get_char(term_char::vertical);
 
     at(x, y).ch = get_char(term_char::left_down_corner);
     at(x, y + height - 1).ch = get_char(term_char::right_down_corner);
@@ -62,15 +56,13 @@ buffer::box(size_type const &x, size_type const &y, size_type const &width, size
 void
 buffer::for_each(std::function<void(line_type const &)> const &func) const
 {
-    for (line_type const &line : buffer_)
-        func(line);
+    for (line_type const &line : buffer_) func(line);
 }
 
 void
 buffer::for_each(std::function<void(line_type &)> const &func)
 {
-    for (line_type &line : buffer_)
-        func(line);
+    for (line_type &line : buffer_) func(line);
 }
 
 void

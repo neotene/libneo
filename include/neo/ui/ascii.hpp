@@ -1,8 +1,10 @@
-#pragma once
+#ifndef NEO_UI_ASCII
+#define NEO_UI_ASCII
 
 #include <cstdlib>
 #include <map>
 #include <string>
+
 namespace neo {
 namespace ui {
 
@@ -328,8 +330,11 @@ template <class CHAR = wchar_t>
 CHAR
 get_char(term_char const &tc)
 {
+    std::string const expected("xterm-256color");
+
     char *current_term = std::getenv("TERM");
-    if ((current_term == nullptr ? std::string("") : std::string(current_term)) == std::string("xterm-256color"))
+
+    if (current_term != nullptr && std::string(current_term) == expected)
         return xterm_term_chars[tc];
     else
         return static_cast<CHAR>(default_term_chars[tc]);
@@ -344,3 +349,5 @@ ascii_to(CHAR &chr, ascii ascii_char)
 
 }   // namespace ui
 }   // namespace neo
+
+#endif

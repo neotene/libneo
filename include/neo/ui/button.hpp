@@ -1,14 +1,14 @@
-#pragma once
-
-#include <neo/config.hpp>
+#ifndef NEO_UI_BUTTON
+#define NEO_UI_BUTTON
 
 #include <functional>
-#include <memory>
 #include <string>
 
-#include <neo/ui/attributes.hpp>
-#include <neo/ui/input.hpp>
-#include <neo/ui/object.hpp>
+#include "neo/ui/attributes.hpp"
+#include "neo/ui/color.hpp"
+#include "neo/ui/input.hpp"
+#include "neo/ui/object.hpp"
+
 
 namespace neo {
 namespace ui {
@@ -18,27 +18,25 @@ struct window_impl;
 template <class Context>
 class button : public object<Context>
 {
-  public:
+   public:
     using parent_type = object<Context>;
     using dimension_type = typename parent_type::context_type::buffer_type::size_type;
     using coord_type = typename parent_type::coord_type;
     using typename parent_type::context_type;
 
-  public:
+   public:
     using activate_proto = void();
     using activate_callback = std::function<activate_proto>;
 
-  private:
+   private:
     std::wstring text_;
     activate_callback on_activate_;
     bool focused_;
 
-  public:
+   public:
     button(typename parent_type::context_type &ui_context, attributes<context_type> const &attrs,
            std::wstring const &text, frame<Context> *parent = nullptr)
-        : parent_type(ui_context, attrs, true)
-        , text_(text)
-        , focused_(false)
+        : parent_type(ui_context, attrs, true), text_(text), focused_(false)
     {
         if (!parent)
             return;
@@ -72,3 +70,5 @@ class button : public object<Context>
 
 }   // namespace ui
 }   // namespace neo
+
+#endif

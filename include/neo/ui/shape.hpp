@@ -1,8 +1,9 @@
-#pragma once
+#ifndef NEO_UI_SHAPE
+#define NEO_UI_SHAPE
 
-#include <neo/ui/attributes.hpp>
-#include <neo/ui/frame.hpp>
-#include <neo/ui/object.hpp>
+#include "neo/ui/attributes.hpp"
+#include "neo/ui/frame.hpp"
+#include "neo/ui/object.hpp"
 
 namespace neo {
 namespace ui {
@@ -10,13 +11,13 @@ namespace ui {
 template <class Context>
 class shape : public object<Context>
 {
-  public:
+   public:
     using parent_type = object<Context>;
     using dimension_type = typename parent_type::context_type::buffer_type::size_type;
     using coord_type = typename parent_type::coord_type;
     using typename parent_type::context_type;
 
-  public:
+   public:
     shape(typename parent_type::context_type &ui_context, attributes<context_type> const &attrs,
           frame<Context> *parent = nullptr)
         : object<Context>(ui_context, attrs)
@@ -35,3 +36,5 @@ class shape : public object<Context>
 
 }   // namespace ui
 }   // namespace neo
+
+#endif

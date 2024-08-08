@@ -1,10 +1,10 @@
-#pragma once
+#ifndef NEO_UI_CONTEXT
+#define NEO_UI_CONTEXT
 
 #include <vector>
 
-#include <neo/config.hpp>
-#include <neo/ui/frame.hpp>
-#include <neo/ui/input.hpp>
+#include "neo/ui/frame.hpp"
+#include "neo/ui/input.hpp"
 
 namespace neo {
 namespace ui {
@@ -12,20 +12,20 @@ namespace ui {
 template <class BUFFER>
 class context
 {
-  public:
+   public:
     using buffer_type = BUFFER;
     using window_type = frame<context<BUFFER>>;
     using window_container_type = std::vector<window_type *>;
     using object_iterator_container_type = std::vector<typename window_type::frame_container_type::iterator>;
 
-  protected:
+   protected:
     window_container_type objects_;
     object_iterator_container_type iterators_;
     buffer_type buffer_;
     // void *input_manager_impl_;
     input_manager input_manager_;
 
-  public:
+   public:
     virtual ~context()
     {}
 
@@ -33,9 +33,7 @@ class context
     virtual size_t height() const = 0;
     virtual void refresh() = 0;
 
-    // input
-    // read() const
-    // {}
+    virtual input read() const = 0;
 
     buffer_type &buffer()
     {
@@ -44,7 +42,6 @@ class context
 
     void run()
     {
-
         for (; !objects_.empty();)
         {
             refresh();
@@ -81,15 +78,13 @@ class context
     {
         objects_.push_back(reinterpret_cast<window_type *>(&frame));
         iterators_.push_back(objects_.back()->first_focusable());
-        for (typename window_type::frame_container_type::value_type obj : objects_.back()->children())
-            obj->on_show();
+        for (typename window_type::frame_container_type::value_type obj : objects_.back()->children()) obj->on_show();
         (*iterators_.back())->focus_change(true);
     }
 
     void pop_window()
     {
-        for (typename window_type::frame_container_type::value_type obj : objects_.back()->children())
-            obj->on_hide();
+        for (typename window_type::frame_container_type::value_type obj : objects_.back()->children()) obj->on_hide();
         objects_.pop_back();
         (*iterators_.back())->focus_change(false);
         iterators_.pop_back();
@@ -104,3 +99,5 @@ class context
 
 }   // namespace ui
 }   // namespace neo
+
+#endif

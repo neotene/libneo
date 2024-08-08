@@ -1,4 +1,5 @@
-#pragma once
+#ifndef NEO_UI_COLOR
+#define NEO_UI_COLOR
 
 namespace neo {
 
@@ -12,3 +13,5 @@ enum class color
 };
 
 }   // namespace neo
+
+#endif

@@ -1,10 +1,10 @@
-#pragma once
+#ifndef NEO_UI_FIELD
+#define NEO_UI_FIELD
 
-#include <neo/config.hpp>
-
-#include <neo/ui/attributes.hpp>
-#include <neo/ui/input.hpp>
-#include <neo/ui/object.hpp>
+#include "neo/ui/attributes.hpp"
+#include "neo/ui/color.hpp"
+#include "neo/ui/input.hpp"
+#include "neo/ui/object.hpp"
 
 namespace neo {
 namespace ui {
@@ -12,13 +12,13 @@ namespace ui {
 template <class CONTEXT>
 class field : public object<CONTEXT>
 {
-  public:
+   public:
     using parent_type = object<CONTEXT>;
     using dimension_type = typename parent_type::context_type::buffer_type::size_type;
     using coord_type = typename parent_type::coord_type;
     using typename parent_type::context_type;
 
-  private:
+   private:
     bool focused_;
     unsigned int size_;
     unsigned int seek_;
@@ -26,7 +26,7 @@ class field : public object<CONTEXT>
     bool is_password_;
     bool clear_on_hide_;
 
-  public:
+   public:
     field(typename parent_type::context_type &ui_context, attributes<context_type> const &attrs, unsigned int size,
           bool is_password, frame<CONTEXT> *parent = nullptr)
         : parent_type(ui_context, attrs, true)
@@ -54,7 +54,6 @@ class field : public object<CONTEXT>
 
     virtual void draw() override
     {
-
         std::pair<color, color> colors;
 
         if (focused_)
@@ -93,3 +92,5 @@ class field : public object<CONTEXT>
 
 }   // namespace ui
 }   // namespace neo
+
+#endif

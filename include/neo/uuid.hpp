@@ -1,9 +1,10 @@
-#pragma once
+#ifndef NEO_UUID
+#define NEO_UUID
 
 #include <functional>
 #include <random>
 
-#include <neo/config.hpp>
+#include "neo/config.hpp"
 
 namespace neo {
 
@@ -17,3 +18,5 @@ NEO_API extern uuid_distribution_type uuid_distribution;
 NEO_API extern uuid_type uuid();
 
 }   // namespace neo
+
+#endif

@@ -1,12 +1,11 @@
-#pragma once
+#ifndef NEO_UI_LABEL
+#define NEO_UI_LABEL
 
 #include <string>
 
-#include <neo/config.hpp>
-
-#include <neo/ui/attributes.hpp>
-#include <neo/ui/color.hpp>
-#include <neo/ui/object.hpp>
+#include "neo/ui/attributes.hpp"
+#include "neo/ui/color.hpp"
+#include "neo/ui/object.hpp"
 
 namespace neo {
 namespace ui {
@@ -14,31 +13,28 @@ namespace ui {
 template <class Context>
 class label : public object<Context>
 {
-  public:
+   public:
     using parent_type = object<Context>;
     using dimension_type = typename parent_type::context_type::buffer_type::size_type;
     using coord_type = typename parent_type::coord_type;
     using typename parent_type::context_type;
 
-  private:
+   private:
     std::wstring text_;
     color fg_;
     color bg_;
 
-  public:
+   public:
     label(typename parent_type::context_type &ui_context, attributes<context_type> const &attrs,
           std::wstring const &text, frame<Context> *parent = nullptr)
-        : parent_type(ui_context, attrs)
-        , text_(text)
-        , fg_(color::white)
-        , bg_(color::black)
+        : parent_type(ui_context, attrs), text_(text), fg_(color::white), bg_(color::black)
     {
         if (!parent)
             return;
         parent->add_child(this);
     }
 
-  public:
+   public:
     unsigned int size() const
     {
         return text_.size();
@@ -64,3 +60,5 @@ class label : public object<Context>
 
 }   // namespace ui
 }   // namespace neo
+
+#endif
