@@ -34,7 +34,7 @@ class object
         : ui_context_(ui_context), attributes_(attrs), focusable_(focusable)
     {}
 
-    virtual ~object() {};
+    virtual ~object(){};
 
     virtual void draw() = 0;
 

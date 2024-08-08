@@ -5,7 +5,6 @@
 
 #include "neo/config.hpp"
 
-
 namespace neo {
 namespace ui {
 

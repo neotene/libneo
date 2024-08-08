@@ -330,7 +330,7 @@ template <class CHAR = wchar_t>
 CHAR
 get_char(term_char const &tc)
 {
-    std::string const expected("xterm-256color");
+    constexpr char expected[] = "xterm-256color";
 
     char *current_term = std::getenv("TERM");
 

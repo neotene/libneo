@@ -5,10 +5,8 @@
 #include <string>
 
 #include "neo/ui/attributes.hpp"
-#include "neo/ui/color.hpp"
 #include "neo/ui/input.hpp"
 #include "neo/ui/object.hpp"
-
 
 namespace neo {
 namespace ui {

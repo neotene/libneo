@@ -5,7 +5,6 @@
 #include "neo/ui/color.hpp"
 #include "neo/ui/print.hpp"
 
-
 namespace neo {
 
 std::map<color, int> colors = {

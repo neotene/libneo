@@ -6,7 +6,6 @@
 
 #include "neo/ui/color.hpp"
 
-
 namespace neo {
 
 void print(unsigned int x, unsigned int y, std::wstring const &text,

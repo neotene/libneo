@@ -8,6 +8,8 @@
 
 #include <panel.h>
 
+#include <neo/term/curses.hpp>
+
 // #include <gainput/gainput.h>
 
 #include <stdexcept>
