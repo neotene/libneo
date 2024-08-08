@@ -1,22 +1,22 @@
-#include <curses.h>
+#include "neo/term/context.hpp"
 
-#include "neo/config.hpp"
+#include <curses.h>
 
 #ifdef NEO_SYSTEM_WINDOWS
 # include <windows.h>
+#else
+# include <gainput/GainputInputDeviceKeyboard.h>
+# include <gainput/GainputInputMap.h>
+# include <gainput/GainputInputMap.h>
+# include <gainput/gainput.h>
+
 #endif   // NEO_SYSTEM_WINDOWS
 
 #include <panel.h>
 
-#include <neo/term/curses.hpp>
-
-// #include <gainput/gainput.h>
-
 #include <stdexcept>
 
 #include "neo/term/buffer.hpp"
-#include "neo/term/context.hpp"
-#include "neo/ui/handle.hpp"
 #include "neo/ui/input.hpp"
 #include "neo/ui/print.hpp"
 
@@ -24,32 +24,59 @@ namespace neo {
 namespace ui {
 namespace terminal {
 
-handle *
-context::init()
+class context::p_impl
 {
-    WINDOW *hdl = ::initscr();
+    WINDOW *win_hdl_;
 
-    if (!hdl)
-        throw std::runtime_error("PDCurses init: could not initialize screen");
-    if (::noecho() != OK)
-        throw std::runtime_error("PDCurses init: could not initialize noecho");
-    if (::start_color() != OK)
-        throw std::runtime_error("PDCurses init: could not initialize start_color");
+    WINDOW *init_win_hdl()
+    {
+        WINDOW *win_hdl = ::initscr();
 
-    return reinterpret_cast<ui::handle *>(hdl);
-}
+        if (!win_hdl_)
+            throw std::runtime_error("PDCurses init: could not initialize screen");
+        if (::noecho() != OK)
+            throw std::runtime_error("PDCurses init: could not initialize noecho");
+        if (::start_color() != OK)
+            throw std::runtime_error("PDCurses init: could not initialize start_color");
 
-context::context() : handle_(init())
+        return win_hdl;
+    }
+#ifdef NEO_SYSTEM_WINDOWS
+    HANDLE std_handle_;
+#else
+    gainput::InputManager input_manager_;
+    gainput::InputMap input_map_;
+
+   public:
+    gainput::InputManager &input_manager()
+    {
+        return input_manager_;
+    }
+
+    gainput::InputMap &input_map()
+    {
+        return input_map_;
+    }
+
+    p_impl(WINDOW *win_hdl) : win_hdl_(win_hdl), input_map_(input_manager_)
+    {
+        win_hdl_ = init_win_hdl();
+
+        const gainput::DeviceId keyboardId = input_manager_.CreateDevice<gainput::InputDeviceKeyboard>();
+
+        input_map_.MapBool(input::special_key::backspace, keyboardId, gainput::KeyBackSpace);
+        input_map_.MapBool(input::special_key::enter, keyboardId, gainput::KeyKpEnter);
+    }
+#endif
+};
+
+context::context() : p_impl_(std::make_unique<p_impl>())
 {
     buffer_.resize(width(), height());
-}
 
-context::~context()
-{
-    if (!handle_)
-        return;
-    // ::endwin();
-    handle_ = nullptr;
+#ifdef NEO_SYSTEM_LINUX
+    p_impl_.get()->input_manager().SetDisplaySize(width(), height());
+#endif
 }
 
 size_t
@@ -95,7 +122,7 @@ getconchar(KEY_EVENT_RECORD &krec)
 
 #ifdef NEO_SYSTEM_WINDOWS
 input
-context::read() const
+context::read()
 {
     KEY_EVENT_RECORD key;
     getconchar(key);
@@ -110,21 +137,18 @@ context::read() const
 }
 #else
 input
-context::read() const
+context::read()
 {
-    // gainput::DeviceButtonSpec outButtons;
-    // manager.GetAnyButtonDown(&outButtons, 1);
+    p_impl_.get()->input_manager().Update();
 
-    // auto ch = std::wcin.get();
-    // // int ch = ::wgetch(reinterpret_cast<WINDOW *>(handle_));
-    // auto s = keyname(ch);
-    // input.key() = ch;
-    // input.specials()[input::special_key::shift_tab] = s == std::string("^[");
-    // input.specials()[input::special_key::tab] = input.key() == 9;
-    // input.specials()[input::special_key::escape] = input.key() == 27;
-    // input.specials()[input::special_key::enter] = input.key() == 13;
-    // input.specials()[input::special_key::backspace] = input.key() == 127;
+    // May need some platform-specific message handling here
 
+    if (p_impl_.map().GetBoolWasDown(ButtonConfirm))
+    {
+        // Confirmed!
+    }
+
+    input input;
     return input;
 }
 #endif

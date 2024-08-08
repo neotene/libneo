@@ -1,11 +1,12 @@
 #ifndef NEO_TERM_CONTEXT
 #define NEO_TERM_CONTEXT
 
+#include <experimental/propagate_const>
+#include <memory>
+
 #include "neo/config.hpp"
 #include "neo/term/buffer.hpp"
 #include "neo/ui/context.hpp"
-#include "neo/ui/handle.hpp"
-
 
 namespace neo {
 namespace ui {
@@ -13,15 +14,11 @@ namespace terminal {
 
 class NEO_API context : public ui::context<buffer>
 {
-   private:
-    handle *handle_;
+    class p_impl;
+    std::experimental::propagate_const<std::unique_ptr<p_impl>> p_impl_;
 
    public:
     context();
-    ~context();
-
-   private:
-    handle *init();
 
    public:
     virtual size_t width() const override;

@@ -11,7 +11,7 @@ namespace ui {
 class NEO_API input
 {
    public:
-    enum class special_key
+    enum special_key
     {
         tab,
         shift,
