@@ -3,7 +3,9 @@
 #include "neo/term/context.hpp"
 #include "neo/term/field.hpp"
 #include "neo/term/frame.hpp"
+#include "neo/term/label.hpp"
 #include "neo/term/shape.hpp"
+#include "neo/ui/attributes.hpp"
 
 using namespace neo::ui;
 int
@@ -15,7 +17,13 @@ main()
 
     terminal::shape box1(term, terminal::attributes(0, 0, term.width(), term.height()), &welcome);
 
-    terminal::field field(term, terminal::attributes(10, 10, 20, 3), 10, false, &welcome);
+    terminal::field field(term,
+                          terminal::attributes(0, 0, 20, 3, &box1.get_attributes(), anchor::center, anchor::center), 20,
+                          false, &welcome);
+
+    terminal::label label(
+        term, terminal::attributes(0, 0, 10, 1, &field.get_attributes(), anchor::bottom_center, anchor::top_center),
+        u"ça marche !", &welcome);
 
     term.push_window(welcome);
 

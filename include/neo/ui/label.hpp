@@ -10,23 +10,24 @@
 namespace neo {
 namespace ui {
 
-template <class Context>
-class label : public object<Context>
+template <class CONTEXT>
+class label : public object<CONTEXT>
 {
    public:
-    using parent_type = object<Context>;
+    using parent_type = object<CONTEXT>;
     using dimension_type = typename parent_type::context_type::buffer_type::size_type;
     using coord_type = typename parent_type::coord_type;
     using typename parent_type::context_type;
 
    private:
-    std::wstring text_;
+    std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> text_;
     color fg_;
     color bg_;
 
    public:
     label(typename parent_type::context_type &ui_context, attributes<context_type> const &attrs,
-          std::wstring const &text, frame<Context> *parent = nullptr)
+          std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> const &text,
+          frame<CONTEXT> *parent = nullptr)
         : parent_type(ui_context, attrs), text_(text), fg_(color::white), bg_(color::black)
     {
         if (!parent)
@@ -46,7 +47,7 @@ class label : public object<Context>
                                         {fg_, bg_});
     }
 
-    void text(std::wstring const &text)
+    void text(std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> const &text)
     {
         text_ = text;
     }

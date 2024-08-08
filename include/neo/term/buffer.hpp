@@ -15,22 +15,22 @@ namespace terminal {
 class NEO_API buffer
 {
    public:
-    struct character {
-        using char_type = wchar_t;
+    struct term_cell {
+        using char_type = char16_t;
 
-        wchar_t ch;
+        char_type ch;
         color ch_color;
         color bg_color;
 
-        character(wchar_t ch_ = ' ', color ch_color_ = color::white, color bg_color_ = color::black)
+        term_cell(wchar_t ch_ = ' ', color ch_color_ = color::white, color bg_color_ = color::black)
             : ch(ch_), ch_color(ch_color_), bg_color(bg_color_)
         {}
     };
 
    public:
     using size_type = int;
-    using character_type = character;
-    using line_type = std::vector<character_type>;
+    using cell_type = term_cell;
+    using line_type = std::vector<cell_type>;
     using buffer_type = std::vector<line_type>;
 
    private:
@@ -38,13 +38,13 @@ class NEO_API buffer
 
    public:
     void fill_area(size_type const &x, size_type const &y, size_type const &width, size_type const &height);
-    void fill(character_type const &ch);
+    void fill(cell_type const &ch);
     void resize(size_type width, size_type height);
-    character_type &at(size_type const &x, size_type const &y);
+    cell_type &at(size_type const &x, size_type const &y);
     void box(size_type const &x, size_type const &y, size_type const &width, size_type const &height);
     void for_each(std::function<void(line_type const &)> const &func) const;
     void for_each(std::function<void(line_type &)> const &func);
-    void text(size_type const &x, size_type const &y, std::basic_string<character::char_type> const &text,
+    void text(size_type const &x, size_type const &y, std::basic_string<term_cell::char_type> const &text,
               std::pair<color, color> const &foreground_background = {color::white, color::black});
 };
 

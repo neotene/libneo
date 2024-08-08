@@ -5,6 +5,7 @@
 #include <string>
 
 #include "neo/ui/attributes.hpp"
+#include "neo/ui/color.hpp"
 #include "neo/ui/input.hpp"
 #include "neo/ui/object.hpp"
 
@@ -13,11 +14,11 @@ namespace ui {
 
 struct window_impl;
 
-template <class Context>
-class button : public object<Context>
+template <class CONTEXT>
+class button : public object<CONTEXT>
 {
    public:
-    using parent_type = object<Context>;
+    using parent_type = object<CONTEXT>;
     using dimension_type = typename parent_type::context_type::buffer_type::size_type;
     using coord_type = typename parent_type::coord_type;
     using typename parent_type::context_type;
@@ -27,13 +28,14 @@ class button : public object<Context>
     using activate_callback = std::function<activate_proto>;
 
    private:
-    std::wstring text_;
+    std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> text_;
     activate_callback on_activate_;
     bool focused_;
 
    public:
     button(typename parent_type::context_type &ui_context, attributes<context_type> const &attrs,
-           std::wstring const &text, frame<Context> *parent = nullptr)
+           std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> const &text,
+           frame<CONTEXT> *parent = nullptr)
         : parent_type(ui_context, attrs, true), text_(text), focused_(false)
     {
         if (!parent)

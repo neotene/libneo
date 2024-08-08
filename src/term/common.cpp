@@ -17,7 +17,8 @@ std::map<std::string, size_t> color_pairs;
 size_t current_pair_idx = 1;
 
 void
-print(unsigned int x, unsigned int y, std::wstring const &text, std::pair<color, color> const &foreground_background)
+print(unsigned int x, unsigned int y, std::basic_string<char16_t> const &text,
+      std::pair<color, color> const &foreground_background)
 {
     std::string hash = std::to_string(static_cast<int>(foreground_background.first)) +
                        std::to_string(static_cast<int>(foreground_background.second));

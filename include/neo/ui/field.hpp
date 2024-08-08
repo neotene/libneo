@@ -22,7 +22,7 @@ class field : public object<CONTEXT>
     bool focused_;
     unsigned int size_;
     unsigned int seek_;
-    std::wstring text_;
+    std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> text_;
     bool is_password_;
     bool clear_on_hide_;
 
@@ -61,16 +61,17 @@ class field : public object<CONTEXT>
         else
             colors = {color::white, color::black};
 
-        std::wstring to_print;
+        std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> to_print;
         if (!is_password_)
             to_print = text_;
         else
-            to_print = std::wstring(text_.size(), '*');
+            to_print = std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type>(text_.size(), '*');
 
         this->ui_context_.buffer().text(this->get_attributes().get_x(), this->get_attributes().get_y(), to_print,
                                         colors);
-        this->ui_context_.buffer().text(this->get_attributes().get_x() + text_.size(), this->get_attributes().get_y(),
-                                        std::wstring(size_ - text_.size(), '_'), colors);
+        this->ui_context_.buffer().text(
+            this->get_attributes().get_x() + text_.size(), this->get_attributes().get_y(),
+            std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type>(size_ - text_.size(), '_'), colors);
     }
 
     void clear_on_hide(bool clear_on_hide)
@@ -84,7 +85,7 @@ class field : public object<CONTEXT>
             text_.clear();
     }
 
-    std::wstring const &text() const
+    std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> const &text() const
     {
         return text_;
     }

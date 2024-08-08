@@ -5,7 +5,6 @@
 #include "neo/term/frame.hpp"
 #include "neo/term/shape.hpp"
 
-
 using namespace neo::ui;
 int
 main()
@@ -18,7 +17,7 @@ main()
 
     terminal::button btn1(term,
                           terminal::attributes(0, 0, 10, 3, &box1.get_attributes(), anchor::center, anchor::center),
-                          L"Button 1", &welcome);
+                          u"Button 1", &welcome);
 
     terminal::shape box2(
         term, terminal::attributes(0, 0, 20, 20, &box1.get_attributes(), anchor::center, anchor::center), &welcome);
@@ -37,7 +36,7 @@ main()
 
     terminal::button btn2(term,
                           terminal::attributes(0, 0, 10, 3, &box5.get_attributes(), anchor::center, anchor::center),
-                          L"Button 2", &welcome);
+                          u"Button 2", &welcome);
 
     terminal::shape box6(
         term, terminal::attributes(0, 0, 20, 10, &box2.get_attributes(), anchor::bottom_center, anchor::top_center),
@@ -45,7 +44,7 @@ main()
 
     terminal::button btn3(term,
                           terminal::attributes(0, 0, 10, 3, &box6.get_attributes(), anchor::center, anchor::center),
-                          L"Button 3", &welcome);
+                          u"Button 3", &welcome);
 
     terminal::shape box7(
         term, terminal::attributes(0, 0, 15, 15, &box2.get_attributes(), anchor::top_left, anchor::bottom_right),

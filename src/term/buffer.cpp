@@ -17,7 +17,7 @@ buffer::fill_area(size_type const &x, size_type const &y, size_type const &width
 }
 
 void
-buffer::fill(character_type const &ch)
+buffer::fill(cell_type const &ch)
 {
     for_each([&ch](line_type &line) { line = line_type(line.size(), ch); });
 }
@@ -30,7 +30,7 @@ buffer::resize(size_type width, size_type height)
         line.resize(width);
 }
 
-buffer::character_type &
+buffer::cell_type &
 buffer::at(size_type const &x, size_type const &y)
 {
     auto clamped_y = std::clamp(y, size_type(0), static_cast<size_type>(buffer_.size() - 1));
@@ -74,11 +74,11 @@ buffer::for_each(std::function<void(line_type &)> const &func)
 }
 
 void
-buffer::text(size_type const &x, size_type const &y, std::wstring const &text,
+buffer::text(size_type const &x, size_type const &y, std::basic_string<term_cell::char_type> const &text,
              std::pair<color, color> const &foreground_background)
 {
     for (unsigned int i = 0; i < text.size(); ++i)
-        at(x + i, y) = character(text[i], foreground_background.first, foreground_background.second);
+        at(x + i, y) = term_cell(text[i], foreground_background.first, foreground_background.second);
 }
 
 }   // namespace terminal
