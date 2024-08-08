@@ -7,24 +7,27 @@
 #include "neo/ui/attributes.hpp"
 
 using namespace neo::ui;
-int
-main()
-{
-    terminal::context term;
+int main() {
+  terminal::context term;
 
-    terminal::frame welcome(term, terminal::attributes(0, 0, term.width() / 2, 15));
+  terminal::frame welcome(term,
+                          terminal::attributes(0, 0, term.width() / 2, 15));
 
-    terminal::shape box1(term, terminal::attributes(1, 1, term.width() - 1, term.height() - 1), &welcome);
+  terminal::shape box1(
+      term, terminal::attributes(1, 1, term.width() - 1, term.height() - 1),
+      &welcome);
 
-    terminal::field field(term,
-                          terminal::attributes(0, 0, 20, 3, &box1.get_attributes(), anchor::center, anchor::center), 20,
-                          false, &welcome);
+  terminal::field field(term,
+                        terminal::attributes(0, 0, 20, 3,
+                                             &box1.get_attributes(),
+                                             anchor::center, anchor::center),
+                        20, false, &welcome);
 
-    terminal::label label(
-        term, terminal::attributes(0, 0, 10, 1, &field.get_attributes(), anchor::bottom_center, anchor::top_center),
-        u"ça marche !", &welcome);
+  terminal::label label(
+      term,
+      terminal::attributes(0, 0, 10, 1, &field.get_attributes(),
+                           anchor::bottom_center, anchor::top_center),
+      u"ça marche !", &welcome);
 
-    term.push_window(welcome);
-
-    term.run();
+  term.run();
 }

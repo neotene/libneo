@@ -8,8 +8,8 @@
 
 namespace neo {
 
-void print(unsigned int x, unsigned int y, std::basic_string<char16_t> const &text,
-           std::pair<color, color> const &foreground_background = {color::white, color::black});
+// void print(unsigned int x, unsigned int y, std::basic_string<char16_t> const &text,
+//            std::pair<color, color> const &foreground_background = {color::white, color::black});
 
 }   // namespace neo
 

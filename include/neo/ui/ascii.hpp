@@ -4,7 +4,6 @@
 #include <cstdlib>
 #include <map>
 #include <string>
-#include <iostream>
 
 namespace neo {
 namespace ui {
@@ -329,20 +328,21 @@ using vt100_char = decltype(u'│');
 extern std::map<term_char, vt100_char> vt100_term_chars;
 extern std::map<term_char, wchar_t> basic_term_chars;
 
-template<class CHAR=vt100_char>
+template <class CHAR = vt100_char>
 CHAR
 get_character(term_char const &tc)
 {
-    constexpr char expected[] = "xterm-256color";
+    // constexpr char expected[] = "xterm-256color";
 
-    char *current_term = std::getenv("TERM");
+    // char *current_term = std::getenv("TERM");
 
-    if (current_term != nullptr && std::string(current_term) == expected) {
-        return vt100_term_chars[tc];
-    }
-    else {
-        return static_cast<vt100_char>(basic_term_chars[tc]);
-    }
+    // if (current_term != nullptr && std::string(current_term) == expected)
+    // {
+    return vt100_term_chars[tc];
+    // } else
+    // {
+    //     return static_cast<vt100_char>(basic_term_chars[tc]);
+    // }
 }
 
 template <class CHAR>
