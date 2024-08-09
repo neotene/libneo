@@ -185,7 +185,7 @@ context::refresh()
     for (layer_type &layer : stack_)
     {
         for (auto &obj : layer)
-            obj->draw();
+            obj->draw(buffer_);
     }
 
     buffer_type::size_type y = 0;

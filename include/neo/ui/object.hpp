@@ -12,11 +12,11 @@ namespace ui {
 
 class input;
 
-template <class Context>
+template <class CONTEXT>
 class object
 {
    public:
-    using context_type = Context;
+    using context_type = CONTEXT;
     // using size_type = typename context_type::buffer_type::size_type;
     // using coord_type = size_type;
     using focus_change_callback_type = std::function<void(bool)>;
@@ -26,7 +26,7 @@ class object
     context_type &ui_context_;
     std::map<uuid_type, focus_change_callback_type> focus_change_callbacks_;
     std::map<uuid_type, input_callback_type> input_callbacks_;
-    attributes<Context> attributes_;
+    attributes<CONTEXT> attributes_;
     bool focusable_;
 
    public:
@@ -40,7 +40,7 @@ class object
 
     virtual ~object() {};
 
-    virtual void draw() = 0;
+    virtual void draw(typename CONTEXT::buffer_type &buffer) = 0;
 
     virtual void on_show()
     {}
@@ -48,7 +48,7 @@ class object
     virtual void on_hide()
     {}
 
-    attributes<Context> &get_attributes()
+    attributes<CONTEXT> &get_attributes()
     {
         return attributes_;
     }
@@ -58,7 +58,7 @@ class object
         return focusable_;
     }
 
-    attributes<Context> const &get_attributes() const
+    attributes<CONTEXT> const &get_attributes() const
     {
         return attributes_;
     }

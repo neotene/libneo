@@ -14,8 +14,6 @@ class field : public object<CONTEXT>
 {
    public:
     using parent_type = object<CONTEXT>;
-    using dimension_type = typename parent_type::context_type::buffer_type::size_type;
-    using coord_type = typename parent_type::coord_type;
     using typename parent_type::context_type;
 
    private:
@@ -48,7 +46,7 @@ class field : public object<CONTEXT>
         });
     }
 
-    virtual void draw() override
+    virtual void draw(typename CONTEXT::buffer_type &buffer) override
     {
         std::pair<color, color> colors;
 
@@ -63,11 +61,10 @@ class field : public object<CONTEXT>
         else
             to_print = std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type>(text_.size(), '*');
 
-        this->ui_context_.buffer().text(this->get_attributes().get_x(), this->get_attributes().get_y(), to_print,
-                                        colors);
-        this->ui_context_.buffer().text(
-            this->get_attributes().get_x() + text_.size(), this->get_attributes().get_y(),
-            std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type>(size_ - text_.size(), '_'), colors);
+        buffer.text(this->get_attributes().get_x(), this->get_attributes().get_y(), to_print, colors);
+        buffer.text(this->get_attributes().get_x() + text_.size(), this->get_attributes().get_y(),
+                    std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type>(size_ - text_.size(), '_'),
+                    colors);
     }
 
     void clear_on_hide(bool clear_on_hide)

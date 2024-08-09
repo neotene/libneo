@@ -53,7 +53,7 @@ class button : public object<CONTEXT>
         on_activate_ = on_activate;
     }
 
-    virtual void draw() override
+    virtual void draw(typename CONTEXT::buffer_type &buffer) override
     {
         this->ui_context_.buffer().box(this->get_attributes().get_x() - 1, this->get_attributes().get_y() - 1,
                                        static_cast<typename CONTEXT::buffer_type::size_type>(text_.size() + 2), 3);

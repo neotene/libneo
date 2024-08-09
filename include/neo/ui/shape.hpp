@@ -7,24 +7,22 @@
 namespace neo {
 namespace ui {
 
-template <class Context>
-class shape : public object<Context>
+template <class CONTEXT>
+class shape : public object<CONTEXT>
 {
    public:
-    using parent_type = object<Context>;
-    using dimension_type = typename parent_type::context_type::buffer_type::size_type;
-    using coord_type = typename parent_type::coord_type;
+    using parent_type = object<CONTEXT>;
     using typename parent_type::context_type;
 
    public:
     shape(typename parent_type::context_type &ui_context, attributes<context_type> const &attrs)
-        : object<Context>(ui_context, attrs)
+        : object<CONTEXT>(ui_context, attrs)
     {}
 
-    virtual void draw() override
+    virtual void draw(typename CONTEXT::buffer_type &buffer)
     {
-        this->ui_context_.buffer().box(this->get_attributes().get_x(), this->get_attributes().get_y(),
-                                       this->get_attributes().get_width(), this->get_attributes().get_height());
+        buffer.box(this->get_attributes().get_x(), this->get_attributes().get_y(), this->get_attributes().get_width(),
+                   this->get_attributes().get_height());
     }
 };
 

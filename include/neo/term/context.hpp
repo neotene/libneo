@@ -13,6 +13,9 @@ namespace term {
 
 class NEO_API context : public ui::context<term::context>
 {
+   public:
+    using buffer_type = buffer;
+
    private:
     class p_impl;
     std::unique_ptr<p_impl> p_impl_;

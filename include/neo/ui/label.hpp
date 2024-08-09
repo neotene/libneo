@@ -15,8 +15,6 @@ class label : public object<CONTEXT>
 {
    public:
     using parent_type = object<CONTEXT>;
-    using dimension_type = typename parent_type::context_type::buffer_type::size_type;
-    using coord_type = typename parent_type::coord_type;
     using typename parent_type::context_type;
 
    private:
@@ -39,10 +37,9 @@ class label : public object<CONTEXT>
         return text_.size();
     }
 
-    virtual void draw() override
+    virtual void draw(typename CONTEXT::buffer_type &buffer) override
     {
-        this->ui_context_.buffer().text(this->get_attributes().get_x(), this->get_attributes().get_y(), text_,
-                                        {fg_, bg_});
+        buffer.text(this->get_attributes().get_x(), this->get_attributes().get_y(), text_, {fg_, bg_});
     }
 
     void text(std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> const &text)

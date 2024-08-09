@@ -13,7 +13,8 @@ template <class IMPL>
 class context
 {
    public:
-    using layer_type = std::vector<object<IMPL> *>;
+    using object_type = object<IMPL>;
+    using layer_type = std::vector<object_type *>;
     using stack_type = std::vector<layer_type>;
 
    protected:
