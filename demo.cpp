@@ -24,11 +24,11 @@ main()
 
         term::label label(
             term, term::attributes(0, 0, 10, 1, &field.get_attributes(), anchor::bottom_center, anchor::top_center),
-            u"ça marche !");
+            "ça marche !");
 
         term::button button(
             term, term::attributes(0, 0, 10, 1, &field.get_attributes(), anchor::top_center, anchor::bottom_center),
-            u"bouton", [&] { std::cout << "It works!" << std::endl; });
+            "bouton", [&] { std::cout << "It works!" << std::endl; });
 
         term.run();
     } catch (std::exception const &e)

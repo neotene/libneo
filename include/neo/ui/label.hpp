@@ -1,7 +1,7 @@
 #ifndef NEO_UI_LABEL
 #define NEO_UI_LABEL
 
-#include <string>
+#include <vector>
 
 #include "neo/ui/attributes.hpp"
 #include "neo/ui/color.hpp"
@@ -16,20 +16,31 @@ class label : public object<CONTEXT>
    public:
     using parent_type = object<CONTEXT>;
     using typename parent_type::context_type;
+    using container_type = std::vector<term_char_type>;
 
    private:
-    std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> text_;
+    // std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> text_;
+    container_type text_;
     color fg_;
     color bg_;
 
    public:
     label(typename parent_type::context_type &ui_context, attributes<context_type> const &attrs,
-          std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> const &text)
+          std::string const &text)
         : parent_type(ui_context, attrs)
-        , text_(text)
         , fg_(color::white)
         , bg_(color::black)
-    {}
+    {
+        text_.reserve(text.size());
+
+        for (char c : text)
+        {
+            term_char_type ch;
+
+            ch.attr = static_cast<decltype(ch.attr)>(c);
+            text_.push_back(ch);
+        }
+    }
 
    public:
     virtual void update_focus(bool is_focused) override
@@ -42,10 +53,10 @@ class label : public object<CONTEXT>
 
     virtual void draw(typename CONTEXT::buffer_type &buffer) override
     {
-        buffer.text(this->get_attributes().get_x(), this->get_attributes().get_y(), text_, {fg_, bg_});
+        buffer.write(this->get_attributes().get_x(), this->get_attributes().get_y(), text_, {fg_, bg_});
     }
 
-    void text(std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> const &text)
+    void text(container_type const &text)
     {
         text_ = text;
     }

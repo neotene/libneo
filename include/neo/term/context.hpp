@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "neo/config.hpp"
+#include "neo/term/ascii.hpp"
 #include "neo/term/buffer.hpp"
 #include "neo/ui/context.hpp"
 
@@ -26,7 +27,7 @@ class NEO_API context : public ui::context<term::context>
     ~context();
 
    public:
-    void print_ch16(unsigned int x, unsigned int y, char16_t,
+    void print_char(unsigned int x, unsigned int y, term_char_type,
                     std::pair<color, color> const &foreground_background = {color::white, color::black});
 
     virtual input read() override;

@@ -28,30 +28,38 @@ class button : public object<CONTEXT>
     using activate_callback = std::function<activate_proto>;
 
    private:
-    std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> text_;
+    std::vector<term_char_type> text_;
     activate_callback on_activate_;
     bool focused_;
 
    public:
     button(typename parent_type::context_type &ui_context, attributes<context_type> const &attrs,
-           std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> const &text,
-           activate_callback const &on_activate)
+           std::string const &text, activate_callback const &on_activate)
         : parent_type(ui_context, attrs, true)
-        , text_(text)
-        , focused_(false)
         , on_activate_(on_activate)
-    {}
+        , focused_(false)
+    {
+        text_.reserve(text.size());
+
+        for (char c : text)
+        {
+            term_char_type ch;
+
+            ch.attr = static_cast<decltype(ch.attr)>(c);
+            text_.push_back(ch);
+        }
+    }
 
     virtual void draw(typename CONTEXT::buffer_type &buffer) override
     {
         buffer.box(this->get_attributes().get_x() - 1, this->get_attributes().get_y() - 1,
                    static_cast<typename CONTEXT::buffer_type::size_type>(text_.size() + 2), 3);
         if (!focused_)
-            buffer.text(this->get_attributes().get_x(), this->get_attributes().get_y(), text_,
-                        {color::white, color::black});
+            buffer.write(this->get_attributes().get_x(), this->get_attributes().get_y(), text_,
+                         {color::white, color::black});
         else
-            buffer.text(this->get_attributes().get_x(), this->get_attributes().get_y(), text_,
-                        {color::black, color::white});
+            buffer.write(this->get_attributes().get_x(), this->get_attributes().get_y(), text_,
+                         {color::black, color::white});
     }
 
     virtual void update_focus(bool is_focused) override

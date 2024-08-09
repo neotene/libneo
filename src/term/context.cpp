@@ -183,7 +183,7 @@ context::read()
 void
 context::refresh()
 {
-    buffer_.fill(buffer_type::cell_type(' '));
+    buffer_.fill(buffer_type::cell(' '));
 
     for (auto &layer : stack_)
     {
@@ -194,8 +194,8 @@ context::refresh()
     buffer_type::size_type y = 0;
     buffer_.for_each([&y, this](buffer::line_type const &line) {
         int x = 0;
-        for (buffer::cell_type const &character : line)
-            print_ch16(x++, y, character.ch, {character.ch_color, character.bg_color});
+        for (buffer::cell const &character : line)
+            print_char(x++, y, character.ch, {character.ch_color, character.bg_color});
         y++;
     });
     ::wrefresh(p_impl_->win_hdl());
@@ -229,7 +229,8 @@ class colors_cache
 colors_cache cache;
 
 void
-context::print_ch16(unsigned int x, unsigned int y, char16_t ch, std::pair<color, color> const &foreground_background)
+context::print_char(unsigned int x, unsigned int y, term_char_type ch,
+                    std::pair<color, color> const &foreground_background)
 {
     int idx = cache.attr_for_pair(foreground_background);
     if (::wattron(p_impl_->win_hdl(), COLOR_PAIR(idx)) == ERR)

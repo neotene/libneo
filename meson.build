@@ -20,7 +20,6 @@ libneo_deps += dependency('gainput')
 
 libneo_src = [
   'src/uuid.cpp',
-  'src/ui/ascii.cpp',
   'src/ui/input.cpp',
   'src/term/buffer.cpp',
   'src/term/context.cpp',

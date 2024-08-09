@@ -315,45 +315,6 @@ enum class ascii
     space_no_break,             //
 };
 
-enum class term_char
-{
-    vertical,
-    horizontal,
-    left_up_corner,
-    right_up_corner,
-    left_down_corner,
-    right_down_corner,
-};
-
-using term_char_type = decltype();
-
-extern std::map<term_char, vt100_char> vt100_term_chars;
-extern std::map<term_char, wchar_t> basic_term_chars;
-
-template <class CHAR = vt100_char>
-CHAR
-get_character(term_char const &tc)
-{
-    // constexpr char expected[] = "xterm-256color";
-
-    // char *current_term = std::getenv("TERM");
-
-    // if (current_term != nullptr && std::string(current_term) == expected)
-    // {
-    return vt100_term_chars[tc];
-    // } else
-    // {
-    //     return static_cast<vt100_char>(basic_term_chars[tc]);
-    // }
-}
-
-template <class CHAR>
-void
-ascii_to(CHAR &chr, ascii ascii_char)
-{
-    chr = static_cast<CHAR>(ascii_char);
-}
-
 }   // namespace ui
 }   // namespace neo
 

@@ -1,7 +1,7 @@
 #include <algorithm>
 
+#include "neo/term/ascii.hpp"
 #include "neo/term/buffer.hpp"
-#include "neo/ui/ascii.hpp"
 
 namespace neo {
 namespace ui {
@@ -12,11 +12,16 @@ buffer::fill_area(size_type const &x, size_type const &y, size_type const &width
 {
     for (size_type i = 0; i < width; ++i)
         for (size_type j = 0; j < height; ++j)
-            at(i + x, j + y) = ' ';
+        {
+            cchar_t space_ch;
+
+            space_ch.attr = ' ';
+            at(i + x, j + y).ch = space_ch;
+        }
 }
 
 void
-buffer::fill(cell_type const &ch)
+buffer::fill(cell const &ch)
 {
     for_each([&ch](line_type &line) { line = line_type(line.size(), ch); });
 }
@@ -29,7 +34,7 @@ buffer::resize(size_type width, size_type height)
         line.resize(width);
 }
 
-buffer::cell_type &
+buffer::cell &
 buffer::at(size_type const &x, size_type const &y)
 {
     auto clamped_y = std::clamp(y, size_type(0), static_cast<size_type>(buffer_.size() - 1));
@@ -38,7 +43,7 @@ buffer::at(size_type const &x, size_type const &y)
 }
 
 void
-buffer::box(size_type x, size_type y, size_type width, size_type height)
+buffer::box(size_type x, size_type y, size_type width, size_type height, style style)
 {
     x--;
     y--;
@@ -46,21 +51,21 @@ buffer::box(size_type x, size_type y, size_type width, size_type height)
     height++;
 
     for (size_type i = 1; i < width - 1; ++i)
-        at(x + i, y).ch = get_character(term_char::horizontal);
+        at(x + i, y).ch = get_character(style.get(style::element::horizontal));
 
     for (size_type i = 1; i < width - 1; ++i)
-        at(x + i, y + height - 1).ch = get_character(term_char::horizontal);
+        at(x + i, y + height - 1).ch = get_character(style.get(style::element::horizontal));
 
     for (size_type i = 1; i < height - 1; ++i)
-        at(x, y + i).ch = get_character(term_char::vertical);
+        at(x, y + i).ch = get_character(style.get(style::element::vertical));
 
     for (size_type i = 1; i < height - 1; ++i)
-        at(x + width - 1, y + i).ch = get_character(term_char::vertical);
+        at(x + width - 1, y + i).ch = get_character(style.get(style::element::vertical));
 
-    at(x, y).ch = get_character(term_char::left_up_corner);
-    at(x, y + height - 1).ch = get_character(term_char::left_down_corner);
-    at(x + width - 1, y + height - 1).ch = get_character(term_char::right_down_corner);
-    at(x + width - 1, y).ch = get_character(term_char::right_up_corner);
+    at(x, y).ch = get_character(style.get(style::element::left_up_corner));
+    at(x, y + height - 1).ch = get_character(style.get(style::element::left_down_corner));
+    at(x + width - 1, y + height - 1).ch = get_character(style.get(style::element::right_down_corner));
+    at(x + width - 1, y).ch = get_character(style.get(style::element::right_up_corner));
 }
 
 void
@@ -78,11 +83,22 @@ buffer::for_each(std::function<void(line_type &)> const &func)
 }
 
 void
-buffer::text(size_type const &x, size_type const &y, std::basic_string<term_cell::char_type> const &text,
-             std::pair<color, color> const &foreground_background)
+buffer::write(size_type const &x, size_type const &y, sequence_type &sequence)
 {
-    for (unsigned int i = 0; i < text.size(); ++i)
-        at(x + i, y) = term_cell(text[i], foreground_background.first, foreground_background.second);
+    for (unsigned int i = 0; i < sequence.size(); ++i)
+        at(x + i, y) = sequence[i];
+}
+
+std::map<ui::ascii, buffer::cell::char_type *> vt100_term_chars = {
+    {ascii::box_vertical_light, WACS_VLINE},           {ascii::box_horizontal_light, WACS_HLINE},
+    {ascii::box_up_light_left_light, WACS_ULCORNER},   {ascii::box_up_light_right_light, WACS_URCORNER},
+    {ascii::box_down_light_left_light, WACS_LLCORNER}, {ascii::box_down_light_right_light, WACS_LRCORNER},
+};
+
+buffer::cell::char_type
+buffer::get_character(ascii const &tc)
+{
+    return *vt100_term_chars.at(tc);
 }
 
 }   // namespace term

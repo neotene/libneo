@@ -1,7 +1,7 @@
 #ifndef NEO_UI
 #define NEO_UI
 
-#include "neo/ui/ascii.hpp"
+#include "neo/term/ascii.hpp"
 #include "neo/ui/attributes.hpp"
 #include "neo/ui/button.hpp"
 #include "neo/ui/color.hpp"
