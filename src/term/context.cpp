@@ -40,6 +40,10 @@ class context::p_impl
             throw std::runtime_error("PDCurses init: could not initialize noecho");
         if (::start_color() != OK)
             throw std::runtime_error("PDCurses init: could not initialize start_color");
+        if (::can_change_color() != TRUE)
+            throw std::runtime_error("PDCurses init: not able to change colors");
+        if (::has_colors() != TRUE)
+            throw std::runtime_error("PDCurses init: has no colors !");
 
         return win_hdl;
     }
@@ -104,7 +108,6 @@ context::context()
     : p_impl_(std::make_unique<p_impl>())
 {
     buffer_.resize(width(), height());
-
 #ifdef NEO_SYSTEM_LINUX
     p_impl_.get()->input_manager().SetDisplaySize(width(), height());
 #endif
@@ -192,7 +195,7 @@ context::refresh()
     buffer_.for_each([&y, this](buffer::line_type const &line) {
         int x = 0;
         for (buffer::cell_type const &character : line)
-            print_ch16(x++, y, character.ch, {color::red, color::white});
+            print_ch16(x++, y, character.ch, {character.ch_color, character.bg_color});
         y++;
     });
     ::wrefresh(p_impl_->win_hdl());

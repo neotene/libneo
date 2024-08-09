@@ -22,7 +22,7 @@ class NEO_API input
     using specials_container_t = std::map<special_key, bool>;
 
    private:
-    static specials_container_t specials_default_;
+    static specials_container_t const specials_default_;
 
    private:
     static specials_container_t const &specials_default();
@@ -42,18 +42,6 @@ class NEO_API input
     wchar_t &key();
     bool alphanum() const;
     bool printable() const;
-};
-
-class NEO_API input_manager
-{
-   private:
-    void *pimpl_;
-
-   public:
-    input_manager();
-
-   public:
-    input get();
 };
 
 }   // namespace ui

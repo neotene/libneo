@@ -58,7 +58,7 @@ class field : public object<CONTEXT>
                     colors);
     }
 
-    virtual void update(bool is_focused) override
+    virtual void update_focus(bool is_focused) override
     {
         focused_ = is_focused;
     }
@@ -66,6 +66,14 @@ class field : public object<CONTEXT>
     std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> const &text() const
     {
         return text_;
+    }
+
+    void on_input(input const &input) override
+    {
+        if (input.special(input::special_key::backspace) && !text_.empty())
+            text_.pop_back();
+        else if (input.printable() && text_.size() < size_)
+            text_.push_back(input.key());
     }
 };
 

@@ -32,7 +32,7 @@ class label : public object<CONTEXT>
     {}
 
    public:
-    virtual void update(bool is_focused) override
+    virtual void update_focus(bool is_focused) override
     {}
 
     unsigned int size() const
@@ -55,6 +55,9 @@ class label : public object<CONTEXT>
         fg_ = fg;
         bg_ = bg;
     }
+
+    void on_input(input const &input) override
+    {}
 };
 
 }   // namespace ui

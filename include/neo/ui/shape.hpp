@@ -19,14 +19,17 @@ class shape : public object<CONTEXT>
         : object<CONTEXT>(ui_context, attrs)
     {}
 
-    virtual void update(bool is_focused) override
+    virtual void update_focus(bool is_focused) override
     {}
 
-    virtual void draw(typename CONTEXT::buffer_type &buffer)
+    virtual void draw(typename CONTEXT::buffer_type &buffer) override
     {
         buffer.box(this->get_attributes().get_x(), this->get_attributes().get_y(), this->get_attributes().get_width(),
                    this->get_attributes().get_height());
     }
+
+    void on_input(input const &input) override
+    {}
 };
 
 }   // namespace ui

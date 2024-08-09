@@ -42,7 +42,9 @@ class object
 
     virtual void draw(typename CONTEXT::buffer_type &buffer) = 0;
 
-    virtual void update(bool is_focused) = 0;
+    virtual void update_focus(bool is_focused) = 0;
+
+    virtual void on_input(input const &input) = 0;
 
     attributes<CONTEXT> &get_attributes()
     {

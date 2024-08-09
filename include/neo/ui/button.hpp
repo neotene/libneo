@@ -34,16 +34,13 @@ class button : public object<CONTEXT>
 
    public:
     button(typename parent_type::context_type &ui_context, attributes<context_type> const &attrs,
-           std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> const &text)
+           std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> const &text,
+           activate_callback const &on_activate)
         : parent_type(ui_context, attrs, true)
         , text_(text)
         , focused_(false)
+        , on_activate_(on_activate)
     {}
-
-    void on_activate(activate_callback const &on_activate)
-    {
-        on_activate_ = on_activate;
-    }
 
     virtual void draw(typename CONTEXT::buffer_type &buffer) override
     {
@@ -57,8 +54,16 @@ class button : public object<CONTEXT>
                         {color::black, color::white});
     }
 
-    virtual void update(bool is_focused) override
-    {}
+    virtual void update_focus(bool is_focused) override
+    {
+        focused_ = is_focused;
+    }
+
+    void on_input(input const &input) override
+    {
+        if (focused_ && input.special(input::special_key::enter))
+            on_activate_();
+    }
 };
 
 }   // namespace ui

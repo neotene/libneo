@@ -73,9 +73,7 @@ class context
             {
                 pop_top_layer();
                 continue;
-            }
-
-            if (input.special(input::special_key::tab))
+            } else if (input.special(input::special_key::tab))
             {
                 bool backward = false;
                 if (input.special(input::special_key::shift))
@@ -98,9 +96,13 @@ class context
                         --it;
                 }
 
-                (*prev)->update(false);
-                (*it)->update(true);
+                (*prev)->update_focus(false);
+                (*it)->update_focus(true);
                 iterators_.back().second = it;
+            } else
+            {
+                if (!iterators_.back().first)
+                    (*iterators_.back().second)->on_input(input);
             }
         }
     }
