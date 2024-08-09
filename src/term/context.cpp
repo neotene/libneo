@@ -183,7 +183,7 @@ context::read()
 void
 context::refresh()
 {
-    buffer_.fill(buffer_type::cell(' '));
+    buffer_.fill(buffer_type::cell::from_char(' '));
 
     for (auto &layer : stack_)
     {
@@ -195,7 +195,7 @@ context::refresh()
     buffer_.for_each([&y, this](buffer::line_type const &line) {
         int x = 0;
         for (buffer::cell const &character : line)
-            print_char(x++, y, character.ch, {character.ch_color, character.bg_color});
+            print_cell(x++, y, character);
         y++;
     });
     ::wrefresh(p_impl_->win_hdl());
@@ -229,17 +229,17 @@ class colors_cache
 colors_cache cache;
 
 void
-context::print_char(unsigned int x, unsigned int y, term_char_type ch,
-                    std::pair<color, color> const &foreground_background)
+context::print_cell(unsigned int x, unsigned int y, buffer::cell const &cell)
 {
-    int idx = cache.attr_for_pair(foreground_background);
+    int idx = cache.attr_for_pair({cell.ch_color, cell.bg_color});
+
     if (::wattron(p_impl_->win_hdl(), COLOR_PAIR(idx)) == ERR)
         throw std::runtime_error("wattron returned ERR");
 
     if (::wmove(p_impl_->win_hdl(), y, x) == ERR)
         throw std::runtime_error("wmove returned ERR");
 
-    ::waddch(p_impl_->win_hdl(), ch);
+    ::wadd_wch(p_impl_->win_hdl(), &cell.ch);
 
     if (::wattroff(p_impl_->win_hdl(), COLOR_PAIR(idx)) == ERR)
         throw std::runtime_error("wattroff returned ERR");

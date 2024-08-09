@@ -27,8 +27,7 @@ class NEO_API context : public ui::context<term::context>
     ~context();
 
    public:
-    void print_char(unsigned int x, unsigned int y, term_char_type,
-                    std::pair<color, color> const &foreground_background = {color::white, color::black});
+    void print_cell(unsigned int x, unsigned int y, buffer::cell const& cell);
 
     virtual input read() override;
     virtual void refresh() override;

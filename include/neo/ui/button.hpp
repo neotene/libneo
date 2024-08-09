@@ -19,8 +19,6 @@ class button : public object<CONTEXT>
 {
    public:
     using parent_type = object<CONTEXT>;
-    // using dimension_type = typename parent_type::context_type::buffer_type::size_type;
-    // using coord_type = typename parent_type::coord_type;
     using typename parent_type::context_type;
 
    public:
@@ -28,7 +26,7 @@ class button : public object<CONTEXT>
     using activate_callback = std::function<activate_proto>;
 
    private:
-    std::vector<term_char_type> text_;
+    std::string text_;
     activate_callback on_activate_;
     bool focused_;
 
@@ -36,19 +34,10 @@ class button : public object<CONTEXT>
     button(typename parent_type::context_type &ui_context, attributes<context_type> const &attrs,
            std::string const &text, activate_callback const &on_activate)
         : parent_type(ui_context, attrs, true)
+        , text_(text)
         , on_activate_(on_activate)
         , focused_(false)
-    {
-        text_.reserve(text.size());
-
-        for (char c : text)
-        {
-            term_char_type ch;
-
-            ch.attr = static_cast<decltype(ch.attr)>(c);
-            text_.push_back(ch);
-        }
-    }
+    {}
 
     virtual void draw(typename CONTEXT::buffer_type &buffer) override
     {

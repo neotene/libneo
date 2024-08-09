@@ -24,11 +24,14 @@ class NEO_API buffer
         color ch_color;
         color bg_color;
 
-        cell(char_type ch_ = *WACS_PLUS, color ch_color_ = color::white, color bg_color_ = color::black)
-            : ch(ch_)
-            , ch_color(ch_color_)
-            , bg_color(bg_color_)
-        {}
+        static cell from_char(char c)
+        {
+            char_type char_impl;
+
+            char_impl.attr = c;
+            return cell(char_impl);
+        }
+        cell(char_type ch_ = *WACS_PLUS, color ch_color_ = color::white, color bg_color_ = color::black);
     };
 
    public:
@@ -36,6 +39,12 @@ class NEO_API buffer
     using sequence_type = std::vector<cell>;
     using line_type = sequence_type;
     using buffer_type = std::vector<line_type>;
+
+    class sequence : public sequence_type
+    {
+       public:
+        static sequence_type from_std_string(std::string const &std_string);
+    };
 
    private:
     buffer_type buffer_;
@@ -50,7 +59,7 @@ class NEO_API buffer
     void for_each(std::function<void(line_type &)> const &func);
     void write(size_type const &x, size_type const &y, sequence_type &sequence);
 
-    static buffer::cell::char_type buffer::get_character(ascii const &tc);
+    static cell::char_type get_character(ascii const &tc);
 };
 
 }   // namespace term

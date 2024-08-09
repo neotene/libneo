@@ -33,21 +33,10 @@ class style
     static style double_line;
 
    public:
-    style(style_map const& style_map)
-        : style_map_(style_map)
-    {}
+    style(style_map const& style_map);
 
-    ascii get(element element) const
-    {
-        if (style_map_.count(element) == 0)
-            return fallback_style_map_.at(element);
-        style_map_.at(element);
-    }
-
-    style_map const& get_map() const
-    {
-        return style_map_;
-    }
+    ascii get(element element) const;
+    style_map const& get_map() const;
 };
 
 }   // namespace term

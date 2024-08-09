@@ -20,7 +20,7 @@ class field : public object<CONTEXT>
     bool focused_;
     unsigned int size_;
     unsigned int seek_;
-    std::vector<term_char_type> text_;
+    std::string text_;
     bool is_password_;
     bool clear_on_hide_;
 
@@ -46,36 +46,17 @@ class field : public object<CONTEXT>
         else
             colors = {color::white, color::black};
 
-        std::vector<term_char_type> to_print;
+        buffer::sequence to_print;
         if (!is_password_)
             to_print = text_;
         else
-        {
-            to_print = std::vector<term_char_type>();
-            to_print.reserve(text_.size());
-            for (int i = 0; i > text_.size(); ++i)
-            {
-                term_char_type ch;
-
-                ch.attr = '*';
-                to_print.push_back(ch);
-            }
-        }
+            to_print = buffer::sequence::from_std_string(std::string(text_.size(), '*'));
 
         buffer.write(this->get_attributes().get_x(), this->get_attributes().get_y(), to_print, colors);
 
-        std::vector<term_char_type> chs;
+        buffer::sequence seq = buffer::sequence::from_std_string(std::string(size_ - text_.size(), '_'));
 
-        chs.reserve(size_ - text_.size());
-
-        for (int i = 0; i < size_ - text_.size(); ++i)
-        {
-            term_char_type ch;
-            ch.attr = '_';
-            chs.push_back(ch);
-        }
-
-        buffer.write(this->get_attributes().get_x() + text_.size(), this->get_attributes().get_y(), chs, colors);
+        buffer.write(this->get_attributes().get_x() + text_.size(), this->get_attributes().get_y(), seq, colors);
     }
 
     virtual void update_focus(bool is_focused) override

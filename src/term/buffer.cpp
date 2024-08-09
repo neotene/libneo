@@ -7,6 +7,24 @@ namespace neo {
 namespace ui {
 namespace term {
 
+buffer::cell::cell(char_type ch_, color ch_color_, color bg_color_)
+    : ch(ch_)
+    , ch_color(ch_color_)
+    , bg_color(bg_color_)
+{}
+
+buffer::sequence_type
+buffer::sequence::from_std_string(std::string const &std_string)
+{
+    sequence_type seq;
+
+    seq.reserve(std_string.size());
+    for (auto c : std_string)
+        seq.push_back(cell::from_char(c));
+
+    return seq;
+}
+
 void
 buffer::fill_area(size_type const &x, size_type const &y, size_type const &width, size_type const &height)
 {

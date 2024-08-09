@@ -66,6 +66,9 @@
         "istream": "cpp",
         "sstream": "cpp",
         "__locale": "cpp",
-        "stop_token": "cpp"
+        "stop_token": "cpp",
+        "deque": "cpp",
+        "iostream": "cpp",
+        "system_error": "cpp"
     }
 }
