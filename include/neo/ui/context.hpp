@@ -51,7 +51,7 @@ class context
     void push_new_layer()
     {
         stack_.push_back(layer_type());
-        iterators_.push_back({true, layer_type::iterator()});
+        iterators_.push_back({true, stack_.back().end()});
     }
 
     void pop_top_layer()
