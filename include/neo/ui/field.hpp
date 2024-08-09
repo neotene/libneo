@@ -35,15 +35,6 @@ class field : public object<CONTEXT>
         , clear_on_hide_(true)
     {
         text_.reserve(size);
-
-        this->on_focus_change([this](bool focused) { this->focused_ = focused; });
-
-        this->on_input([this](input const &input) {
-            if (input.special(input::special_key::backspace) && !text_.empty())
-                text_.pop_back();
-            else if (input.printable() && text_.size() < size_)
-                text_.push_back(input.key());
-        });
     }
 
     virtual void draw(typename CONTEXT::buffer_type &buffer) override
@@ -67,15 +58,9 @@ class field : public object<CONTEXT>
                     colors);
     }
 
-    void clear_on_hide(bool clear_on_hide)
+    virtual void update(bool is_focused) override
     {
-        clear_on_hide_ = clear_on_hide;
-    }
-
-    void on_hide() override
-    {
-        if (clear_on_hide_)
-            text_.clear();
+        focused_ = is_focused;
     }
 
     std::basic_string<typename CONTEXT::buffer_type::term_cell::char_type> const &text() const

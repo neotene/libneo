@@ -1,6 +1,7 @@
 #ifndef NEO_UI_CONTEXT
 #define NEO_UI_CONTEXT
 
+#include <iostream>
 #include <vector>
 
 #include "neo/ui/input.hpp"
@@ -42,9 +43,10 @@ class context
         stack_.back().push_back(ui_object);
         if (iterators_.back().first == true)
         {
-            iterators_.back().second = stack_.back().begin();
             iterators_.back().first = false;
         }
+
+        iterators_.back().second = stack_.back().begin();
     }
 
     void push_new_layer()
@@ -78,6 +80,27 @@ class context
                 bool backward = false;
                 if (input.special(input::special_key::shift))
                     backward = true;
+
+                auto pair = iterators_.back();
+                auto it = pair.second;
+                auto prev = it;
+
+                if (!backward)
+                {
+                    ++it;
+                    if (it == stack_.back().end())
+                        it = stack_.back().begin();
+                } else
+                {
+                    if (it == stack_.back().begin())
+                        it = stack_.back().end() - 1;
+                    else
+                        --it;
+                }
+
+                (*prev)->update(false);
+                (*it)->update(true);
+                iterators_.back().second = it;
             }
         }
     }

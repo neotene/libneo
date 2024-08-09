@@ -19,6 +19,9 @@ class shape : public object<CONTEXT>
         : object<CONTEXT>(ui_context, attrs)
     {}
 
+    virtual void update(bool is_focused) override
+    {}
+
     virtual void draw(typename CONTEXT::buffer_type &buffer)
     {
         buffer.box(this->get_attributes().get_x(), this->get_attributes().get_y(), this->get_attributes().get_width(),

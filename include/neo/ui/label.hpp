@@ -32,6 +32,9 @@ class label : public object<CONTEXT>
     {}
 
    public:
+    virtual void update(bool is_focused) override
+    {}
+
     unsigned int size() const
     {
         return text_.size();

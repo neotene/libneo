@@ -42,11 +42,7 @@ class object
 
     virtual void draw(typename CONTEXT::buffer_type &buffer) = 0;
 
-    virtual void on_show()
-    {}
-
-    virtual void on_hide()
-    {}
+    virtual void update(bool is_focused) = 0;
 
     attributes<CONTEXT> &get_attributes()
     {
@@ -61,21 +57,6 @@ class object
     attributes<CONTEXT> const &get_attributes() const
     {
         return attributes_;
-    }
-
-   protected:
-    uuid_type on_focus_change(focus_change_callback_type &&callback)
-    {
-        uuid_type uuid_key = uuid();
-        focus_change_callbacks_[uuid_key] = std::move(callback);
-        return uuid_key;
-    }
-
-    uuid_type on_input(input_callback_type &&callback)
-    {
-        uuid_type uuid_key = uuid();
-        input_callbacks_[uuid_key] = std::move(callback);
-        return uuid_key;
     }
 };
 
