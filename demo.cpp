@@ -1,4 +1,5 @@
 #include <exception>
+#include <iostream>
 
 #include "neo/term/attributes.hpp"
 #include "neo/term/button.hpp"
@@ -7,7 +8,6 @@
 #include "neo/term/label.hpp"
 #include "neo/term/shape.hpp"
 #include "neo/ui/attributes.hpp"
-
 
 using namespace neo::ui;
 int

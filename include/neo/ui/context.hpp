@@ -1,7 +1,6 @@
 #ifndef NEO_UI_CONTEXT
 #define NEO_UI_CONTEXT
 
-#include <iostream>
 #include <vector>
 
 #include "neo/ui/input.hpp"
