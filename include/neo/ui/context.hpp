@@ -9,17 +9,15 @@
 namespace neo {
 namespace ui {
 
-template <class BUFFER>
+template <class IMPL>
 class context
 {
    public:
-    using buffer_type = BUFFER;
-    using layer_type = std::vector<object<context<BUFFER>> *>;
+    using layer_type = std::vector<object<IMPL> *>;
     using stack_type = std::vector<layer_type>;
 
    protected:
     stack_type stack_;
-    buffer_type buffer_;
 
    public:
     context()
@@ -35,11 +33,6 @@ class context
     virtual void refresh() = 0;
 
     virtual input read() = 0;
-
-    buffer_type &buffer()
-    {
-        return buffer_;
-    }
 
     template <class CONTEXT>
     void add_object_to_current_layer(ui::object<CONTEXT> *ui_object)

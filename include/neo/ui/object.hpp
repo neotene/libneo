@@ -17,8 +17,8 @@ class object
 {
    public:
     using context_type = Context;
-    using size_type = typename context_type::buffer_type::size_type;
-    using coord_type = size_type;
+    // using size_type = typename context_type::buffer_type::size_type;
+    // using coord_type = size_type;
     using focus_change_callback_type = std::function<void(bool)>;
     using input_callback_type = std::function<void(input const &)>;
 
@@ -56,18 +56,6 @@ class object
     bool focusable() const
     {
         return focusable_;
-    }
-
-    void focus_change(bool focused)
-    {
-        for (std::pair<uuid_type, focus_change_callback_type> const func : focus_change_callbacks_)
-            func.second(focused);
-    }
-
-    void input(input const &input)
-    {
-        for (std::pair<uuid_type, input_callback_type> const func : input_callbacks_)
-            func.second(input);
     }
 
     attributes<Context> const &get_attributes() const

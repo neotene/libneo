@@ -29,7 +29,7 @@ class attributes
 {
    public:
     using context_type = Context;
-    using size_type = typename Context::buffer_type::size_type;
+    using size_type = unsigned int;
 
    private:
     size_type x_;

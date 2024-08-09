@@ -11,10 +11,12 @@ namespace neo {
 namespace ui {
 namespace term {
 
-class NEO_API context : public ui::context<buffer>
+class NEO_API context : public ui::context<term::context>
 {
+   private:
     class p_impl;
     std::unique_ptr<p_impl> p_impl_;
+    buffer buffer_;
 
    public:
     context();
