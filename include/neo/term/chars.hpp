@@ -5,6 +5,8 @@
 #include <map>
 #include <string>
 
+#include "neo/term/curses.hpp"
+
 namespace neo {
 namespace ui {
 
@@ -323,7 +325,7 @@ enum class term_char
     right_down_corner,
 };
 
-using vt100_char = decltype(u'│');
+using term_char_type = decltype();
 
 extern std::map<term_char, vt100_char> vt100_term_chars;
 extern std::map<term_char, wchar_t> basic_term_chars;
