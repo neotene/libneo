@@ -201,14 +201,47 @@ context::refresh()
     ::wrefresh(p_impl_->win_hdl());
 }
 
+class colors_cache
+{
+   private:
+    int idx_;
+    std::map<std::pair<color, color>, int> colors_cache_;
+
+   public:
+    colors_cache()
+        : idx_(1)
+    {}
+
+   public:
+    int attr_for_pair(std::pair<color, color> const &pair)
+    {
+        if (colors_cache_.count(pair) == 0)
+        {
+            colors_cache_[pair] = idx_;
+            ::init_pair(idx_, colors.at(pair.first), colors.at(pair.second));
+            ++idx_;
+        }
+
+        return colors_cache_[pair];
+    }
+};
+
+colors_cache cache;
+
 void
 context::print_ch16(unsigned int x, unsigned int y, char16_t ch, std::pair<color, color> const &foreground_background)
 {
-    ::init_pair(1, colors.at(foreground_background.first), colors.at(foreground_background.second));
-    ::attron(COLOR_PAIR(1));
-    ::wmove(p_impl_->win_hdl(), y, x);
+    int idx = cache.attr_for_pair(foreground_background);
+    if (::wattron(p_impl_->win_hdl(), COLOR_PAIR(idx)) == ERR)
+        throw std::runtime_error("wattron returned ERR");
+
+    if (::wmove(p_impl_->win_hdl(), y, x) == ERR)
+        throw std::runtime_error("wmove returned ERR");
+
     ::waddch(p_impl_->win_hdl(), ch);
-    ::attroff(COLOR_PAIR(1));
+
+    if (::wattroff(p_impl_->win_hdl(), COLOR_PAIR(idx)) == ERR)
+        throw std::runtime_error("wattroff returned ERR");
 }
 
 }   // namespace term
