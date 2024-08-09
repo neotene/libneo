@@ -1,4 +1,5 @@
 #include "neo/term/attributes.hpp"
+#include "neo/term/button.hpp"
 #include "neo/term/context.hpp"
 #include "neo/term/field.hpp"
 #include "neo/term/label.hpp"
@@ -19,6 +20,10 @@ main()
     term::label label(term,
                       term::attributes(0, 0, 10, 1, &field.get_attributes(), anchor::bottom_center, anchor::top_center),
                       u"ça marche !");
+
+    term::button button(
+        term, term::attributes(0, 0, 10, 1, &field.get_attributes(), anchor::top_center, anchor::bottom_center),
+        u"bouton");
 
     term.run();
 }

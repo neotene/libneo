@@ -182,7 +182,7 @@ context::refresh()
 {
     buffer_.fill(buffer_type::cell_type(' '));
 
-    for (layer_type &layer : stack_)
+    for (auto &layer : stack_)
     {
         for (auto &obj : layer)
             obj->draw(buffer_);

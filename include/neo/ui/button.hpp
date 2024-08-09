@@ -19,8 +19,8 @@ class button : public object<CONTEXT>
 {
    public:
     using parent_type = object<CONTEXT>;
-    using dimension_type = typename parent_type::context_type::buffer_type::size_type;
-    using coord_type = typename parent_type::coord_type;
+    // using dimension_type = typename parent_type::context_type::buffer_type::size_type;
+    // using coord_type = typename parent_type::coord_type;
     using typename parent_type::context_type;
 
    public:
@@ -55,14 +55,14 @@ class button : public object<CONTEXT>
 
     virtual void draw(typename CONTEXT::buffer_type &buffer) override
     {
-        this->ui_context_.buffer().box(this->get_attributes().get_x() - 1, this->get_attributes().get_y() - 1,
-                                       static_cast<typename CONTEXT::buffer_type::size_type>(text_.size() + 2), 3);
+        buffer.box(this->get_attributes().get_x() - 1, this->get_attributes().get_y() - 1,
+                   static_cast<typename CONTEXT::buffer_type::size_type>(text_.size() + 2), 3);
         if (!focused_)
-            this->ui_context_.buffer().text(this->get_attributes().get_x(), this->get_attributes().get_y(), text_,
-                                            {color::white, color::black});
+            buffer.text(this->get_attributes().get_x(), this->get_attributes().get_y(), text_,
+                        {color::white, color::black});
         else
-            this->ui_context_.buffer().text(this->get_attributes().get_x(), this->get_attributes().get_y(), text_,
-                                            {color::black, color::white});
+            buffer.text(this->get_attributes().get_x(), this->get_attributes().get_y(), text_,
+                        {color::black, color::white});
     }
 };
 

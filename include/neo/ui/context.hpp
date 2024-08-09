@@ -18,6 +18,7 @@ class context
     using stack_type = std::vector<layer_type>;
 
    protected:
+    std::vector<std::pair<bool, typename layer_type::iterator>> iterators_;
     stack_type stack_;
 
    public:
@@ -39,16 +40,23 @@ class context
     void add_object_to_current_layer(ui::object<CONTEXT> *ui_object)
     {
         stack_.back().push_back(ui_object);
+        if (iterators_.back().first == true)
+        {
+            iterators_.back().second = stack_.back().begin();
+            iterators_.back().first = false;
+        }
     }
 
     void push_new_layer()
     {
         stack_.push_back(layer_type());
+        iterators_.push_back({true, layer_type::iterator()});
     }
 
     void pop_top_layer()
     {
         stack_.pop_back();
+        iterators_.pop_back();
     }
 
     void run()
@@ -61,6 +69,7 @@ class context
 
             if (input.special(input::special_key::escape))
             {
+                pop_top_layer();
                 continue;
             }
 
